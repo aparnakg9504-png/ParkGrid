@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ParkGrid | Smart Parking</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f7f9fc;
+            color: #172033;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            width: 100%;
+            height: 75px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 800;
+            color: #172033;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #2474ff;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4d5668;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #2474ff;
+        }
+
+        .login-btn {
+            border: 1px solid #2474ff;
+            color: #2474ff !important;
+            padding: 11px 22px;
+            border-radius: 8px;
+        }
+
+        .register-btn {
+            background: #2474ff;
+            color: white !important;
+            padding: 12px 22px;
+            border-radius: 8px;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: calc(100vh - 75px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 70px 7%;
+            gap: 60px;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            width: 50%;
+        }
+
+        .small-title {
+            color: #2474ff;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-content h1 {
+            font-size: 58px;
+            line-height: 1.08;
+            margin-bottom: 25px;
+            color: #172033;
+        }
+
+        .hero-content h1 span {
+            color: #2474ff;
+        }
+
+        .hero-content p {
+            color: #687386;
+            font-size: 17px;
+            line-height: 1.7;
+            max-width: 560px;
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .primary-btn {
+            display: inline-block;
+            background: #2474ff;
+            color: white;
+            text-decoration: none;
+            padding: 15px 28px;
+            border-radius: 9px;
+            font-weight: 600;
+        }
+
+        .secondary-btn {
+            display: inline-block;
+            border: 1px solid #d5dbe5;
+            color: #172033;
+            background: white;
+            text-decoration: none;
+            padding: 15px 28px;
+            border-radius: 9px;
+            font-weight: 600;
+        }
+
+        /* CAR IMAGE AREA */
+        .hero-image {
+            width: 50%;
+            height: 480px;
+            border-radius: 28px;
+            background: #eaf2ff;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-image::before {
+            content: "";
+            width: 380px;
+            height: 380px;
+            background: #d6e6ff;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .car-image {
+            position: relative;
+            width: 90%;
+            max-width: 560px;
+            height: auto;
+            object-fit: contain;
+            z-index: 2;
+        }
+
+        /* FEATURES */
+        .features {
+            padding: 80px 7%;
+            background: white;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-heading h2 {
+            font-size: 36px;
+            margin-bottom: 12px;
+        }
+
+        .section-heading p {
+            color: #687386;
+            font-size: 16px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .feature-card {
+            background: #f8faff;
+            border: 1px solid #edf0f5;
+            padding: 30px;
+            border-radius: 16px;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #e7f0ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+            font-size: 19px;
+        }
+
+        .feature-card p {
+            color: #687386;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #172033;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .nav-links {
+                gap: 15px;
+            }
+
+            .hero {
+                flex-direction: column;
+                padding-top: 50px;
+            }
+
+            .hero-content,
+            .hero-image {
+                width: 100%;
+            }
+
+            .hero-content h1 {
+                font-size: 45px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 0 5%;
+            }
+
+            .nav-links a:not(.login-btn):not(.register-btn) {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 38px;
+            }
+
+            .hero-image {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+
+        <div class="logo">
+            Park<span>Grid</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">How It Works</a>
+            <a href="#">Features</a>
+            <a href="#">Contact</a>
+
+            <a href="{% url 'login' %}" class="login-btn">Login</a>
+            <a href="{% url 'register' %}" class="register-btn">Register</a>
+        </div>
+
+    </nav>
+
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="small-title">
+                Smart Parking Platform
+            </div>
+
+            <h1>
+                Find Your Spot.<br>
+                <span>Park With Ease.</span>
+            </h1>
+
+            <p>
+                ParkGrid makes parking simple, fast and convenient.
+                Find available parking spaces, reserve your spot,
+                and enjoy a hassle-free parking experience.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#" class="primary-btn">
+                    Find Parking
+                </a>
+
+                <a href="#" class="secondary-btn">
+                    Learn More
+                </a>
+            </div>
+
+        </div>
+
+
+        <!-- CAR IMAGE -->
+        <div class="hero-image">
+
+            <!--
+                We will replace this with our actual ParkGrid
+                car image later.
+            -->
+
+            <img
+                src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1000&q=80"
+                alt="Car parked in a parking area"
+                class="car-image"
+            >
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+    <section class="features">
+
+        <div class="section-heading">
+
+            <h2>
+                Everything You Need for Smarter Parking
+            </h2>
+
+            <p>
+                ParkGrid brings the entire parking experience into one platform.
+            </p>
+
+        </div>
+
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📍
+                </div>
+
+                <h3>
+                    Find Parking
+                </h3>
+
+                <p>
+                    Easily discover available parking spaces
+                    at your preferred location.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🎫
+                </div>
+
+                <h3>
+                    Easy Booking
+                </h3>
+
+                <p>
+                    Reserve your parking slot in advance
+                    and receive a secure QR code.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ⚡
+                </div>
+
+                <h3>
+                    Smart Parking
+                </h3>
+
+                <p>
+                    Experience faster entry, automated
+                    parking calculation and easy payment.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        © 2026 ParkGrid. All Rights Reserved.
+
+    </footer>
+
+</body>
+</html>

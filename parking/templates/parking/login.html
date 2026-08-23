@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | ParkGrid</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f7f9fc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 950px;
+            min-height: 580px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .left {
+            width: 42%;
+            background: #2474ff;
+            color: white;
+            padding: 55px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 45px;
+        }
+
+        .logo span {
+            color: #dce9ff;
+        }
+
+        .left h1 {
+            font-size: 38px;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .left p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #e5edff;
+        }
+
+        .right {
+            width: 58%;
+            padding: 70px 55px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right h2 {
+            font-size: 30px;
+            color: #172033;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #7a8495;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .message {
+            padding: 11px 14px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            background: #fff1f1;
+            color: #d32f2f;
+            font-size: 13px;
+        }
+
+        .success-message {
+            background: #effaf3;
+            color: #23834b;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #dce1e8;
+            border-radius: 8px;
+            padding: 0 13px;
+            font-size: 14px;
+            outline: none;
+            background: white;
+        }
+
+        input:focus {
+            border-color: #2474ff;
+        }
+
+        .password-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: -8px;
+            margin-bottom: 25px;
+        }
+
+        .forgot-password {
+            color: #2474ff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-button {
+            width: 100%;
+            height: 48px;
+            border: none;
+            border-radius: 8px;
+            background: #2474ff;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #1764e8;
+        }
+
+        .register-text {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+            color: #687386;
+        }
+
+        .register-text a {
+            color: #2474ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-text a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 800px) {
+            .container {
+                width: 95%;
+            }
+
+            .left {
+                display: none;
+            }
+
+            .right {
+                width: 100%;
+                padding: 50px 35px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .right {
+                padding: 40px 25px;
+            }
+
+            .right h2 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="left">
+
+            <div class="logo">
+                Park<span>Grid</span>
+            </div>
+
+            <h1>
+                Welcome back!
+            </h1>
+
+            <p>
+                Sign in to your ParkGrid account and
+                continue your smart and hassle-free
+                parking experience.
+            </p>
+
+        </div>
+
+
+        <div class="right">
+
+            <h2>
+                Welcome Back
+            </h2>
+
+            <p class="subtitle">
+                Login to your ParkGrid account
+            </p>
+
+
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="message {% if message.tags == 'success' %}success-message{% endif %}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+            {% endif %}
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="password-row">
+
+                    <a href="#" class="forgot-password">
+                        Forgot Password?
+                    </a>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-button"
+                >
+                    Login
+                </button>
+
+            </form>
+
+
+            <p class="register-text">
+
+                Don't have an account?
+
+                <a href="{% url 'register' %}">
+                    Create Account
+                </a>
+
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
+
