@@ -1,0 +1,484 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Parking Managers - ParkGrid</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #2563eb;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 35px;
+            padding-left: 10px;
+        }
+
+        .nav a {
+            display: block;
+            text-decoration: none;
+            color: white;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .logout {
+            position: absolute;
+            bottom: 25px;
+            left: 15px;
+            right: 15px;
+        }
+
+        .logout a {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.5);
+            padding: 11px;
+            border-radius: 8px;
+        }
+
+        /* Main */
+
+        .main {
+            margin-left: 240px;
+            padding: 35px;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+        }
+
+        .header p {
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        /* Search */
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-form input:focus {
+            border-color: #2563eb;
+        }
+
+        .search-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .clear-btn {
+            background: #e5e7eb;
+            color: #374151;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+        }
+
+        /* Table */
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #374151;
+            text-align: left;
+            padding: 16px;
+            font-size: 13px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Status */
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pending-status {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .approved-status {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .rejected-status {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Buttons */
+
+        .action-btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 8px 13px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .approve-btn {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .reject-btn {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 45px;
+            color: #6b7280;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+                padding: 20px;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            🅿️ ParkGrid
+        </div>
+
+        <div class="nav">
+
+            <a href="{% url 'admin_dashboard' %}">
+                📊 Dashboard
+            </a>
+
+            <a href="{% url 'admin_users' %}">
+                👥 Users
+            </a>
+
+            <a href="{% url 'admin_managers' %}" class="active">
+                🅿️ Parking Managers
+            </a>
+
+            <a href="#">
+                📍 Parking Locations
+            </a>
+
+            <a href="#">
+                📋 Bookings
+            </a>
+
+            <a href="#">
+                💬 Complaints
+            </a>
+
+            <a href="#">
+                📈 Reports
+            </a>
+
+        </div>
+
+        <div class="logout">
+
+            <a href="{% url 'logout' %}">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- Main Content -->
+
+    <div class="main">
+
+        <div class="header">
+
+            <h1>Parking Managers</h1>
+
+            <p>
+                Review and manage parking manager registrations
+            </p>
+
+        </div>
+
+
+        <!-- Search -->
+
+        <div class="search-box">
+
+            <form method="GET" class="search-form">
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search by name, email or phone..."
+                    value="{{ search }}"
+                >
+
+                <button type="submit" class="search-btn">
+                    🔍 Search
+                </button>
+
+                {% if search %}
+
+                    <a
+                        href="{% url 'admin_managers' %}"
+                        class="clear-btn"
+                    >
+                        Clear
+                    </a>
+
+                {% endif %}
+
+            </form>
+
+        </div>
+
+
+        <!-- Managers Table -->
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>#</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Approval Status</th>
+                        <th>Joined</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for manager in managers %}
+
+                    <tr>
+
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ manager.first_name }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ manager.email }}
+                        </td>
+
+                        <td>
+                            {{ manager.phone|default:"—" }}
+                        </td>
+
+                        <td>
+
+                            {% if manager.approval_status == 'pending' %}
+
+                                <span class="status pending-status">
+                                    Pending
+                                </span>
+
+                            {% elif manager.approval_status == 'approved' %}
+
+                                <span class="status approved-status">
+                                    Approved
+                                </span>
+
+                            {% else %}
+
+                                <span class="status rejected-status">
+                                    Rejected
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ manager.date_joined|date:"d M Y" }}
+                        </td>
+
+                        <td>
+
+                            {% if manager.approval_status == 'pending' %}
+
+                                <a
+                                    href="{% url 'approve_manager' manager.id %}"
+                                    class="action-btn approve-btn"
+                                >
+                                    ✓ Approve
+                                </a>
+
+                                <a
+                                    href="{% url 'reject_manager' manager.id %}"
+                                    class="action-btn reject-btn"
+                                >
+                                    ✕ Reject
+                                </a>
+
+                            {% elif manager.approval_status == 'approved' %}
+
+                                <span class="status approved-status">
+                                    Active
+                                </span>
+
+                            {% else %}
+
+                                <span class="status rejected-status">
+                                    Rejected
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td colspan="7" class="empty">
+                            No parking managers found.
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
+

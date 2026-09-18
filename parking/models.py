@@ -7,11 +7,16 @@ from django.contrib.auth.models import AbstractUser
 # ---------------------------------------------------------
 
 class User(AbstractUser):
-
     ROLE_CHOICES = (
         ('user', 'User'),
         ('manager', 'Parking Manager'),
         ('admin', 'Admin'),
+    )
+
+    APPROVAL_STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
     )
 
     role = models.CharField(
@@ -25,8 +30,15 @@ class User(AbstractUser):
         blank=True
     )
 
+    approval_status = models.CharField(
+        max_length=20,
+        choices=APPROVAL_STATUS_CHOICES,
+        default='pending'
+    )
+
     def __str__(self):
         return self.username
+
 
 
 # ---------------------------------------------------------
