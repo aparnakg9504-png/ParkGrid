@@ -4,7 +4,29 @@ from parking import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('', views.home, name='home'),
+
+    path('login/', views.user_login, name='login'),
+    path('logout/', views.user_logout, name='logout'),
+
     path('register/', views.register, name='register'),
-    path('login/', views.login_view, name='login'),
+
+    path(
+        'user/dashboard/',
+        views.user_dashboard,
+        name='user_dashboard'
+    ),
+
+    path(
+        'manager/dashboard/',
+        views.manager_dashboard,
+        name='manager_dashboard'
+    ),
+
+    path(
+        'parkgrid-admin/dashboard/',
+        views.admin_dashboard,
+        name='admin_dashboard'
+    ),
 ]
