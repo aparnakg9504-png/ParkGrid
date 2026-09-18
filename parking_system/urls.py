@@ -17,6 +17,12 @@ urlpatterns = [
         views.user_dashboard,
         name='user_dashboard'
     ),
+path(
+    'parking-list/',
+    views.parking_list,
+    name='parking_list'
+),
+
 
     path(
         'manager/dashboard/',

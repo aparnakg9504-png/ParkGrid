@@ -154,9 +154,18 @@ def user_dashboard(request):
 
     return render(
         request,
-        'parking/user_dashboard.html'
+        'parking/dashboard.html'
     )
+# ---------------------------------------------------------
+# PARKING LIST
+# ---------------------------------------------------------
 
+def parking_list(request):
+
+    return render(
+        request,
+        'parking/parking_list.html'
+    )
 
 # ---------------------------------------------------------
 # MANAGER DASHBOARD

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ParkGrid - Customer Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f6f8;
+        }
+
+        .header {
+            background-color: #1f2937;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .welcome {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .card {
+            background-color: white;
+            width: 250px;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .card h2 {
+            margin-bottom: 15px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .logout {
+            margin-top: 30px;
+        }
+
+        .logout a {
+            color: red;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>ParkGrid</h1>
+        <p>Customer Dashboard</p>
+    </div>
+
+    <div class="container">
+
+        <div class="welcome">
+            <h2>Welcome to ParkGrid!</h2>
+            <p>Find and book your parking slot easily.</p>
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <h2>Find Parking</h2>
+                <p>Find available parking facilities and slots.</p>
+                <a href="/parking-list/" class="button">Find Parking</a>
+            </div>
+
+            <div class="card">
+                <h2>My Bookings</h2>
+                <p>View and manage your parking bookings.</p>
+                <a href="#" class="button">My Bookings</a>
+            </div>
+
+        </div>
+
+        <div class="logout">
+            <a href="/logout/">Logout</a>
+        </div>
+
+    </div>
+
+</body>
+</html>
