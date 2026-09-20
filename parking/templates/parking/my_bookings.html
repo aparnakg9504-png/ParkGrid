@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkGrid - My Bookings</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fa;
+            color: #243b53;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #102a43;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 35px;
+            color: #2ec4b6;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #d9e2ec;
+            text-decoration: none;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .sidebar a:hover {
+            background: #167d8d;
+            color: white;
+        }
+
+        .sidebar a.active {
+            background: #167d8d;
+            color: white;
+        }
+
+        .main {
+            margin-left: 240px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .topbar h2 {
+            font-size: 22px;
+            color: #102a43;
+        }
+
+        .topbar span {
+            color: #627d98;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 35px;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            font-size: 30px;
+            color: #102a43;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #627d98;
+            font-size: 15px;
+        }
+
+        .booking-box {
+            background: white;
+            border-radius: 14px;
+            padding: 45px 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(16, 42, 67, 0.08);
+            border: 1px solid #e6edf2;
+        }
+
+        .booking-icon {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: #e6f7f5;
+            color: #167d8d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .booking-box h2 {
+            color: #102a43;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .booking-box p {
+            color: #627d98;
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 22px;
+            background: #167d8d;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .button:hover {
+            background: #126875;
+        }
+
+        .secondary-button {
+            display: inline-block;
+            padding: 12px 22px;
+            background: #eef3f7;
+            color: #243b53;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .secondary-button:hover {
+            background: #d9e2ec;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .secondary-button {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+
+        <div class="logo">
+            ParkGrid
+        </div>
+
+        <a href="/user/dashboard/">🏠 Dashboard</a>
+
+        <a href="/parking-list/">🅿️ Find Parking</a>
+
+        <a href="/my-bookings/" class="active">📋 My Bookings</a>
+
+        <a href="/booking-history/">🕘 Booking History</a>
+
+        <a href="/complaints/">⚠️ Complaints</a>
+
+        <a href="/complaint-status/">📌 Complaint Status</a>
+
+        <a href="/logout/">🚪 Logout</a>
+
+    </div>
+
+
+    <div class="main">
+
+        <div class="topbar">
+
+            <h2>My Bookings</h2>
+
+            <span>ParkGrid Customer Portal</span>
+
+        </div>
+
+
+        <div class="content">
+
+            <div class="page-heading">
+
+                <h1>My Parking Bookings</h1>
+
+                <p>View and manage your parking reservations.</p>
+
+            </div>
+
+
+            <div class="booking-box">
+
+                <div class="booking-icon">
+                    🅿️
+                </div>
+
+                <h2>No Bookings Yet</h2>
+
+                <p>
+                    You have no bookings yet.
+                    Find a parking location and reserve your slot to see your bookings here.
+                </p>
+
+                <a href="/parking-list/" class="button">
+                    Find Parking
+                </a>
+
+                <a href="/user/dashboard/" class="secondary-button">
+                    Back to Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 
 from django import forms
 from django.contrib.auth import get_user_model
+from .models import Complaint
 
 User = get_user_model()
 
@@ -55,3 +56,13 @@ class RegistrationForm(forms.ModelForm):
                 )
 
         return cleaned_data
+class ComplaintForm(forms.ModelForm):
+
+    class Meta:
+        model = Complaint
+        fields = [
+            'location',
+            'subject',
+            'description',
+            'photo',
+        ]

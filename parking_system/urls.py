@@ -22,9 +22,51 @@ path(
     views.parking_list,
     name='parking_list'
 ),
-
-
-    
+path(
+    'my-bookings/',
+    views.my_bookings,
+    name='my_bookings'
+),
+path(
+    'parking-slots/',
+    views.parking_slots,
+    name='parking_slots'
+),
+path(
+    'booking/',
+    views.booking,
+    name='booking'
+),
+path(
+    'booking-confirmation/',
+    views.booking_confirmation,
+    name='booking_confirmation'
+),
+path(
+    'booking-details/',
+    views.booking_details,
+    name='booking_details'
+),
+path(
+    'qr-code/',
+    views.qr_code,
+    name='qr_code'
+),
+path(
+    'booking-history/',
+    views.booking_history,
+    name='booking_history'
+),
+path(
+    'complaints/',
+    views.complaints,
+    name='complaints'
+),
+path(
+    'complaint-status/',
+    views.complaint_status,
+    name='complaint_status'
+),
 path(
     'parkgrid-admin/managers/',
     views.admin_managers,

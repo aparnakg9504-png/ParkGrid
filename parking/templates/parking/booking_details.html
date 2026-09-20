@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ParkGrid | Find Parking</title>
+    <title>ParkGrid | Booking Details</title>
 
     <style>
         * {
@@ -18,7 +18,6 @@
             color: #17212b;
         }
 
-        /* Sidebar */
         .sidebar {
             position: fixed;
             left: 0;
@@ -106,7 +105,6 @@
             color: #ffb4b4 !important;
         }
 
-        /* Main */
         .main {
             margin-left: 245px;
             min-height: 100vh;
@@ -165,10 +163,9 @@
             font-weight: 700;
         }
 
-        /* Content */
         .content {
             padding: 35px 40px;
-            max-width: 1400px;
+            max-width: 1050px;
         }
 
         .heading {
@@ -185,110 +182,95 @@
             font-size: 14px;
         }
 
-        /* Search area */
-        .search-box {
+        .details-card {
             background: white;
             border: 1px solid #e1e8ed;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 28px;
+            border-radius: 14px;
+            padding: 30px;
+        }
+
+        .card-header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 15px;
+            margin-bottom: 25px;
         }
 
-        .search-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 8px;
-            background: #edf7f6;
+        .card-header h3 {
+            font-size: 19px;
+        }
+
+        .booking-id {
             color: #087f8c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .search-text strong {
-            display: block;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
-        .search-text span {
-            color: #7b8794;
-            font-size: 12px;
-        }
-
-        /* Parking cards */
-        .parking-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .parking-card {
-            background: white;
-            border: 1px solid #e1e8ed;
-            border-radius: 12px;
-            padding: 24px;
-            transition: 0.2s;
-        }
-
-        .parking-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(16,42,67,0.08);
-        }
-
-        .parking-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
-            background: #edf7f6;
-            color: #087f8c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 21px;
-            margin-bottom: 18px;
-        }
-
-        .parking-card h3 {
-            font-size: 17px;
-            margin-bottom: 8px;
-        }
-
-        .location {
-            color: #7b8794;
             font-size: 13px;
-            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        .details {
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 17px 20px;
+            border-bottom: 1px solid #e1e8ed;
+            font-size: 13px;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row span:first-child {
+            color: #7b8794;
+        }
+
+        .detail-row span:last-child {
+            font-weight: 600;
+            text-align: right;
         }
 
         .status {
-            display: inline-block;
-            background: #e8f7f2;
-            color: #147d64;
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 20px;
+            color: #147d64 !important;
         }
 
-        .view-btn {
-            display: block;
-            text-align: center;
-            background: #102a43;
-            color: white;
-            text-decoration: none;
-            padding: 11px 15px;
+        .actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
             border-radius: 7px;
+            text-decoration: none;
             font-size: 13px;
             font-weight: 600;
         }
 
-        .view-btn:hover {
+        .primary-btn {
+            background: #102a43;
+            color: white;
+        }
+
+        .primary-btn:hover {
             background: #167d8d;
+        }
+
+        .secondary-btn {
+            background: #edf7f6;
+            color: #087f8c;
+        }
+
+        .secondary-btn:hover {
+            background: #d8f3ef;
         }
 
         .back {
@@ -307,13 +289,6 @@
             color: #829ab1;
             font-size: 11px;
             text-align: center;
-        }
-
-        /* Responsive */
-        @media (max-width: 1050px) {
-            .parking-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
 
         @media (max-width: 750px) {
@@ -340,12 +315,22 @@
                 padding: 25px 20px;
             }
 
-            .parking-grid {
-                grid-template-columns: 1fr;
+            .details-card {
+                padding: 20px;
             }
 
-            .search-box {
+            .detail-row {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .detail-row span:last-child {
+                text-align: left;
+            }
+
+            .card-header {
                 align-items: flex-start;
+                flex-direction: column;
             }
         }
     </style>
@@ -353,7 +338,6 @@
 
 <body>
 
-    <!-- Sidebar -->
     <aside class="sidebar">
 
         <div class="brand">
@@ -413,15 +397,13 @@
     </aside>
 
 
-    <!-- Main -->
     <div class="main">
 
-        <!-- Topbar -->
         <header class="topbar">
 
             <div class="page-title">
-                <h2>Find Parking</h2>
-                <p>Choose a convenient parking facility</p>
+                <h2>Booking Details</h2>
+                <p>View your parking reservation</p>
             </div>
 
             <div class="customer">
@@ -438,106 +420,94 @@
         </header>
 
 
-        <!-- Page Content -->
         <main class="content">
 
             <div class="heading">
-                <h1>Parking Facilities</h1>
-                <p>Explore available parking locations and select a facility that suits you.</p>
+                <h1>Booking Details</h1>
+                <p>Review the information related to your parking reservation.</p>
             </div>
 
 
-            <!-- Search Information -->
-            <div class="search-box">
+            <div class="details-card">
 
-                <div class="search-icon">
-                    ⌖
+                <div class="card-header">
+
+                    <h3>Reservation Information</h3>
+
+                    <span class="booking-id">
+                        Booking #1001
+                    </span>
+
                 </div>
 
-                <div class="search-text">
-                    <strong>Available Parking Locations</strong>
-                    <span>Browse parking facilities in and around Kochi.</span>
+
+                <div class="details">
+
+                    <div class="detail-row">
+                        <span>Parking Facility</span>
+                        <span>City Mall Parking</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Location</span>
+                        <span>Kochi</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Parking Slot</span>
+                        <span>A1</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Vehicle Type</span>
+                        <span>Four Wheeler</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Vehicle Number</span>
+                        <span>KL-00-XX-0000</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Booking Date</span>
+                        <span>20 September 2026</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Expected Arrival</span>
+                        <span>10:00 AM</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Reservation Expiry</span>
+                        <span>11:00 AM</span>
+                    </div>
+
+                    <div class="detail-row">
+                        <span>Status</span>
+                        <span class="status">Reserved</span>
+                    </div>
+
+                </div>
+
+
+                <div class="actions">
+
+                    <a href="/qr-code/" class="btn primary-btn">
+                        View QR Code →
+                    </a>
+
+                    <a href="/my-bookings/" class="btn secondary-btn">
+                        My Bookings
+                    </a>
+
                 </div>
 
             </div>
-
-
-            <!-- Parking Facilities -->
-            <section class="parking-grid">
-
-                <div class="parking-card">
-
-                    <div class="parking-icon">
-                        🅿
-                    </div>
-
-                    <h3>City Mall Parking</h3>
-
-                    <div class="location">
-                        📍 Kochi
-                    </div>
-
-                    <span class="status">
-                        ● Available
-                    </span>
-
-                    <a href="/parking-slots/" class="view-btn">
-                        View Parking Slots →
-                    </a>
-
-                </div>
-
-
-                <div class="parking-card">
-
-                    <div class="parking-icon">
-                        🏥
-                    </div>
-
-                    <h3>City Hospital Parking</h3>
-
-                    <div class="location">
-                        📍 Kochi
-                    </div>
-
-                    <span class="status">
-                        ● Available
-                    </span>
-
-                    <a href="/parking-slots/" class="view-btn">
-                        View Parking Slots →
-                    </a>
-
-                </div>
-
-
-                <div class="parking-card">
-
-                    <div class="parking-icon">
-                        🛒
-                    </div>
-
-                    <h3>Supermarket Parking</h3>
-
-                    <div class="location">
-                        📍 Kochi
-                    </div>
-
-                    <span class="status">
-                        ● Available
-                    </span>
-
-                    <a href="/parking-slots/" class="view-btn">
-                        View Parking Slots →
-                    </a>
-
-                </div>
-
-            </section>
 
 
             <div class="back">
-                <a href="/user/dashboard/">← Back to Dashboard</a>
+                <a href="/my-bookings/">← Back to My Bookings</a>
             </div>
 
         </main>

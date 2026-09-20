@@ -1,109 +1,834 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>ParkGrid - Customer Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ParkGrid | Customer Portal</title>
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #f4f6f8;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7f9;
+            color: #17212b;
         }
 
-        .header {
-            background-color: #1f2937;
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 245px;
+            height: 100vh;
+            background: #102a43;
             color: white;
-            padding: 20px;
-            text-align: center;
+            padding: 28px 18px;
         }
 
-        .header h1 {
-            margin: 0;
+        .brand {
+            padding: 0 14px 35px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
         }
 
-        .container {
-            width: 80%;
-            margin: 40px auto;
-            text-align: center;
+        .brand h1 {
+            font-size: 27px;
+            letter-spacing: 0.5px;
         }
 
-        .welcome {
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 30px;
+        .brand span {
+            color: #2ec4b6;
         }
 
-        .cards {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
+        .brand p {
+            margin-top: 6px;
+            color: #9fb3c8;
+            font-size: 12px;
         }
 
-        .card {
-            background-color: white;
-            width: 250px;
-            padding: 30px;
-            border-radius: 10px;
-        }
-
-        .card h2 {
-            margin-bottom: 15px;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 12px 20px;
-            background-color: #2563eb;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-        }
-
-        .logout {
+        .menu {
             margin-top: 30px;
         }
 
-        .logout a {
-            color: red;
+        .menu-title {
+            padding: 0 14px;
+            margin-bottom: 12px;
+            color: #829ab1;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 14px;
+            margin-bottom: 6px;
+            border-radius: 8px;
+            color: #d9e2ec;
             text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #1c405f;
+            color: white;
+        }
+
+        .menu a.active {
+            background: #167d8d;
+            color: white;
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+        }
+
+        .logout {
+            border-top: 1px solid rgba(255,255,255,0.12);
+            padding-top: 18px;
+        }
+
+        .logout a {
+            color: #ffb4b4 !important;
+        }
+
+        /* =========================
+           MAIN AREA
+        ========================= */
+
+        .main {
+            margin-left: 245px;
+            min-height: 100vh;
+        }
+
+        /* TOP BAR */
+
+        .topbar {
+            height: 76px;
+            background: white;
+            border-bottom: 1px solid #e1e8ed;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+
+        .page-title h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .page-title p {
+            color: #7b8794;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .customer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .customer-info {
+            text-align: right;
+        }
+
+        .customer-info strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .customer-info span {
+            color: #7b8794;
+            font-size: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #d8f3ef;
+            color: #087f8c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* CONTENT */
+
+        .content {
+            padding: 35px 40px;
+            max-width: 1400px;
+        }
+
+        /* WELCOME */
+
+        .welcome {
+            background: linear-gradient(120deg, #102a43, #167d8d);
+            border-radius: 14px;
+            padding: 34px 38px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+        .welcome p {
+            color: #d9f2f0;
+            font-size: 14px;
+        }
+
+        .welcome-action {
+            position: relative;
+            z-index: 2;
+        }
+
+        .find-btn {
+            display: inline-block;
+            padding: 13px 22px;
+            background: white;
+            color: #102a43;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .find-btn:hover {
+            background: #edf7f6;
+        }
+
+        /* =========================
+           STATISTICS
+        ========================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 11px;
+            padding: 21px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 9px;
+            background: #edf7f6;
+            color: #087f8c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .stat-card h3 {
+            font-size: 21px;
+            margin-bottom: 3px;
+        }
+
+        .stat-card p {
+            color: #7b8794;
+            font-size: 12px;
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 17px;
+        }
+
+        .section-heading h2 {
+            font-size: 19px;
+            font-weight: 600;
+        }
+
+        .section-heading span {
+            color: #7b8794;
+            font-size: 12px;
+        }
+
+        /* =========================
+           ACTION CARDS
+        ========================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 11px;
+            padding: 24px;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16,42,67,0.08);
+        }
+
+        .card-icon {
+            width: 43px;
+            height: 43px;
+            background: #edf7f6;
+            color: #087f8c;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 17px;
+        }
+
+        .card h3 {
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        .card p {
+            color: #7b8794;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .card-link {
+            color: #087f8c;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .card-link:hover {
+            color: #102a43;
+        }
+
+        /* =========================
+           LOWER SECTION
+        ========================= */
+
+        .lower {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 18px;
+            margin-top: 32px;
+        }
+
+        .info-card {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 11px;
+            padding: 25px;
+        }
+
+        .info-card h3 {
+            font-size: 17px;
+            margin-bottom: 12px;
+        }
+
+        .info-card p {
+            color: #7b8794;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .help-link {
+            display: inline-block;
+            margin-top: 17px;
+            color: #087f8c;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            padding: 30px 40px;
+            color: #829ab1;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1050px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .lower {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .sidebar-bottom {
+                position: static;
+                margin-top: 20px;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .content {
+                padding: 25px 20px;
+            }
+
+            .welcome {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="header">
-        <h1>ParkGrid</h1>
-        <p>Customer Dashboard</p>
-    </div>
+    <!-- SIDEBAR -->
 
-    <div class="container">
+    <aside class="sidebar">
 
-        <div class="welcome">
-            <h2>Welcome to ParkGrid!</h2>
-            <p>Find and book your parking slot easily.</p>
+        <div class="brand">
+            <h1>Park<span>Grid</span></h1>
+            <p>Customer Parking Portal</p>
         </div>
 
-        <div class="cards">
+        <div class="menu">
 
-            <div class="card">
-                <h2>Find Parking</h2>
-                <p>Find available parking facilities and slots.</p>
-                <a href="/parking-list/" class="button">Find Parking</a>
+            <div class="menu-title">
+                Main Menu
             </div>
 
-            <div class="card">
-                <h2>My Bookings</h2>
-                <p>View and manage your parking bookings.</p>
-                <a href="#" class="button">My Bookings</a>
+            <a href="/user/dashboard/" class="active">
+                <span class="menu-icon">⌂</span>
+                Dashboard
+            </a>
+
+            <a href="/parking-list/">
+                <span class="menu-icon">⌖</span>
+                Find Parking
+            </a>
+
+            <a href="/my-bookings/">
+                <span class="menu-icon">▣</span>
+                My Bookings
+            </a>
+
+            <a href="/booking-history/">
+                <span class="menu-icon">◷</span>
+                Booking History
+            </a>
+
+            <div class="menu-title" style="margin-top:25px;">
+                Support
+            </div>
+
+            <a href="/complaints/">
+                <span class="menu-icon">✉</span>
+                Complaints
+            </a>
+
+            <a href="/complaint-status/">
+                <span class="menu-icon">✓</span>
+                Complaint Status
+            </a>
+
+        </div>
+
+        <div class="sidebar-bottom">
+
+            <div class="logout">
+
+                <a href="/logout/">
+                    <span class="menu-icon">↪</span>
+                    Logout
+                </a>
+
             </div>
 
         </div>
 
-        <div class="logout">
-            <a href="/logout/">Logout</a>
-        </div>
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="page-title">
+
+                <h2>Customer Dashboard</h2>
+
+                <p>Manage your parking experience</p>
+
+            </div>
+
+            <div class="customer">
+
+                <div class="customer-info">
+
+                    <strong>Customer</strong>
+
+                    <span>ParkGrid User</span>
+
+                </div>
+
+                <div class="avatar">
+                    U
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <main class="content">
+
+            <!-- WELCOME -->
+
+            <section class="welcome">
+
+                <div class="welcome-content">
+
+                    <h1>Welcome back! 👋</h1>
+
+                    <p>
+                        Find your parking space quickly and manage
+                        your reservations from one place.
+                    </p>
+
+                </div>
+
+                <div class="welcome-action">
+
+                    <a href="/parking-list/" class="find-btn">
+                        Find Parking →
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- STATISTICS -->
+
+            <section class="stats">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ▣
+                    </div>
+
+                    <div>
+                        <h3>0</h3>
+                        <p>Active Bookings</p>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ◷
+                    </div>
+
+                    <div>
+                        <h3>0</h3>
+                        <p>Total Bookings</p>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <h3>0</h3>
+                        <p>Complaints</p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="section-heading">
+
+                <h2>Quick Actions</h2>
+
+                <span>Access your parking services</span>
+
+            </div>
+
+
+            <section class="cards">
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        ⌖
+                    </div>
+
+                    <h3>Find Parking</h3>
+
+                    <p>
+                        Explore available parking facilities
+                        and choose a convenient location.
+                    </p>
+
+                    <a href="/parking-list/" class="card-link">
+                        Search Parking →
+                    </a>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        ▣
+                    </div>
+
+                    <h3>My Bookings</h3>
+
+                    <p>
+                        View and manage your current
+                        parking reservations.
+                    </p>
+
+                    <a href="/my-bookings/" class="card-link">
+                        View Bookings →
+                    </a>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        ◷
+                    </div>
+
+                    <h3>Booking History</h3>
+
+                    <p>
+                        Review your previous parking
+                        reservations and records.
+                    </p>
+
+                    <a href="/booking-history/" class="card-link">
+                        View History →
+                    </a>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        🚗
+                    </div>
+
+                    <h3>Parking Slots</h3>
+
+                    <p>
+                        Check available parking slots
+                        before making your reservation.
+                    </p>
+
+                    <a href="/parking-slots/" class="card-link">
+                        View Slots →
+                    </a>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        ✉
+                    </div>
+
+                    <h3>Submit Complaint</h3>
+
+                    <p>
+                        Report a parking issue or submit
+                        your feedback to the service team.
+                    </p>
+
+                    <a href="/complaints/" class="card-link">
+                        Submit Complaint →
+                    </a>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        ✓
+                    </div>
+
+                    <h3>Complaint Status</h3>
+
+                    <p>
+                        Track the progress of complaints
+                        submitted through your account.
+                    </p>
+
+                    <a href="/complaint-status/" class="card-link">
+                        Check Status →
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- INFORMATION -->
+
+            <section class="lower">
+
+                <div class="info-card">
+
+                    <h3>Parking Made Simple</h3>
+
+                    <p>
+                        ParkGrid gives customers a convenient way
+                        to discover parking facilities, select
+                        available slots and manage their parking
+                        reservations. Everything you need is
+                        available from your customer portal.
+                    </p>
+
+                    <a href="/parking-list/" class="help-link">
+                        Start Finding Parking →
+                    </a>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <h3>Need Assistance?</h3>
+
+                    <p>
+                        If you experience an issue with a parking
+                        facility or booking, you can submit a
+                        complaint and track its status.
+                    </p>
+
+                    <a href="/complaints/" class="help-link">
+                        Contact Support →
+                    </a>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <footer class="footer">
+
+            © 2026 ParkGrid · Customer Parking Portal
+
+        </footer>
 
     </div>
 

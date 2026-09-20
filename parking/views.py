@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.db.models import Q
 
 
-from .forms import RegistrationForm
+from .forms import RegistrationForm, ComplaintForm
 from .models import (
     User,
     ParkingLocation,
@@ -374,7 +374,104 @@ def activate_user(request, user_id):
 
     return redirect('admin_users')
 
+# ---------------------------------------------------------
+# MY BOOKINGS
+# ---------------------------------------------------------
 
+def my_bookings(request):
+    return render(
+        request,
+        'parking/my_bookings.html'
+    )
 
+# ---------------------------------------------------------
+# PARKING SLOTS
+# ---------------------------------------------------------
 
+def parking_slots(request):
+    return render(
+        request,
+        'parking/parking_slots.html'
+    )
+# ---------------------------------------------------------
+# BOOKING PAGE
+# ---------------------------------------------------------
 
+def booking(request):
+    return render(
+        request,
+        'parking/booking.html'
+    )
+# ---------------------------------------------------------
+# BOOKING CONFIRMATION
+# ---------------------------------------------------------
+
+def booking_confirmation(request):
+    return render(
+        request,
+        'parking/booking_confirmation.html'
+    )
+    # ---------------------------------------------------------
+# BOOKING DETAILS
+# ---------------------------------------------------------
+
+def booking_details(request):
+    return render(
+        request,
+        'parking/booking_details.html'
+    )
+# ---------------------------------------------------------
+# QR CODE
+# ---------------------------------------------------------
+
+def qr_code(request):
+    return render(
+        request,
+        'parking/qr_code.html'
+    )
+    # ---------------------------------------------------------
+# BOOKING HISTORY
+# ---------------------------------------------------------
+
+def booking_history(request):
+    return render(
+        request,
+        'parking/booking_history.html'
+    )
+    # ---------------------------------------------------------
+# COMPLAINTS
+# ---------------------------------------------------------
+
+def complaints(request):
+    if request.method == 'POST':
+        form = ComplaintForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            complaint = form.save(commit=False)
+            complaint.user = request.user
+            complaint.save()
+
+            messages.success(
+                request,
+                'Complaint submitted successfully.'
+            )
+
+            return redirect('complaints')
+
+    else:
+        form = ComplaintForm()
+
+    return render(
+        request,
+        'parking/complaints.html',
+        {'form': form}
+    )
+    # ---------------------------------------------------------
+# COMPLAINT STATUS
+# ---------------------------------------------------------
+
+def complaint_status(request):
+    return render(
+        request,
+        'parking/complaint_status.html'
+    )

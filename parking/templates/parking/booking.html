@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ParkGrid | Find Parking</title>
+    <title>ParkGrid | Book Parking</title>
 
     <style>
         * {
@@ -18,7 +18,6 @@
             color: #17212b;
         }
 
-        /* Sidebar */
         .sidebar {
             position: fixed;
             left: 0;
@@ -106,7 +105,6 @@
             color: #ffb4b4 !important;
         }
 
-        /* Main */
         .main {
             margin-left: 245px;
             min-height: 100vh;
@@ -165,10 +163,9 @@
             font-weight: 700;
         }
 
-        /* Content */
         .content {
             padding: 35px 40px;
-            max-width: 1400px;
+            max-width: 1100px;
         }
 
         .heading {
@@ -185,110 +182,125 @@
             font-size: 14px;
         }
 
-        /* Search area */
-        .search-box {
-            background: white;
-            border: 1px solid #e1e8ed;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 28px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .search-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 8px;
-            background: #edf7f6;
-            color: #087f8c;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .search-text strong {
-            display: block;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
-        .search-text span {
-            color: #7b8794;
-            font-size: 12px;
-        }
-
-        /* Parking cards */
-        .parking-grid {
+        .booking-layout {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+            align-items: start;
         }
 
-        .parking-card {
+        .summary-card,
+        .form-card {
             background: white;
             border: 1px solid #e1e8ed;
             border-radius: 12px;
-            padding: 24px;
-            transition: 0.2s;
+            padding: 28px;
         }
 
-        .parking-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(16,42,67,0.08);
+        .summary-card h3,
+        .form-card h3 {
+            font-size: 18px;
+            margin-bottom: 22px;
         }
 
-        .parking-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 10px;
+        .summary-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 12px;
             background: #edf7f6;
             color: #087f8c;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 21px;
+            font-size: 25px;
             margin-bottom: 18px;
         }
 
-        .parking-card h3 {
-            font-size: 17px;
+        .summary-card h4 {
+            font-size: 18px;
             margin-bottom: 8px;
         }
 
-        .location {
+        .summary-card p {
             color: #7b8794;
             font-size: 13px;
-            margin-bottom: 18px;
+            line-height: 1.7;
         }
 
-        .status {
+        .slot-label {
             display: inline-block;
+            margin-top: 20px;
             background: #e8f7f2;
             color: #147d64;
-            padding: 6px 10px;
+            padding: 7px 12px;
             border-radius: 20px;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
+        }
+
+        .form-group {
             margin-bottom: 20px;
         }
 
-        .view-btn {
+        .form-group label {
             display: block;
-            text-align: center;
-            background: #102a43;
-            color: white;
-            text-decoration: none;
-            padding: 11px 15px;
-            border-radius: 7px;
             font-size: 13px;
             font-weight: 600;
+            margin-bottom: 8px;
+            color: #334e68;
         }
 
-        .view-btn:hover {
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d9e2ec;
+            border-radius: 7px;
+            font-family: inherit;
+            font-size: 13px;
+            color: #17212b;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #167d8d;
+            box-shadow: 0 0 0 3px rgba(46,196,182,0.12);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            border: none;
+            border-radius: 7px;
+            padding: 13px;
+            background: #102a43;
+            color: white;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .confirm-btn:hover {
             background: #167d8d;
+        }
+
+        .notice {
+            margin-top: 18px;
+            padding: 13px;
+            border-radius: 7px;
+            background: #f0f7fa;
+            color: #52606d;
+            font-size: 12px;
+            line-height: 1.6;
         }
 
         .back {
@@ -309,10 +321,9 @@
             text-align: center;
         }
 
-        /* Responsive */
-        @media (max-width: 1050px) {
-            .parking-grid {
-                grid-template-columns: repeat(2, 1fr);
+        @media (max-width: 900px) {
+            .booking-layout {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -340,12 +351,9 @@
                 padding: 25px 20px;
             }
 
-            .parking-grid {
+            .form-row {
                 grid-template-columns: 1fr;
-            }
-
-            .search-box {
-                align-items: flex-start;
+                gap: 0;
             }
         }
     </style>
@@ -353,7 +361,6 @@
 
 <body>
 
-    <!-- Sidebar -->
     <aside class="sidebar">
 
         <div class="brand">
@@ -413,15 +420,13 @@
     </aside>
 
 
-    <!-- Main -->
     <div class="main">
 
-        <!-- Topbar -->
         <header class="topbar">
 
             <div class="page-title">
-                <h2>Find Parking</h2>
-                <p>Choose a convenient parking facility</p>
+                <h2>Book Parking</h2>
+                <p>Reserve your parking slot</p>
             </div>
 
             <div class="customer">
@@ -438,106 +443,163 @@
         </header>
 
 
-        <!-- Page Content -->
         <main class="content">
 
             <div class="heading">
-                <h1>Parking Facilities</h1>
-                <p>Explore available parking locations and select a facility that suits you.</p>
+                <h1>Complete Your Booking</h1>
+                <p>Enter your vehicle and reservation details to continue.</p>
             </div>
 
 
-            <!-- Search Information -->
-            <div class="search-box">
+            <div class="booking-layout">
 
-                <div class="search-icon">
-                    ⌖
-                </div>
+                <!-- Booking Summary -->
+                <div class="summary-card">
 
-                <div class="search-text">
-                    <strong>Available Parking Locations</strong>
-                    <span>Browse parking facilities in and around Kochi.</span>
-                </div>
+                    <h3>Booking Summary</h3>
 
-            </div>
-
-
-            <!-- Parking Facilities -->
-            <section class="parking-grid">
-
-                <div class="parking-card">
-
-                    <div class="parking-icon">
+                    <div class="summary-icon">
                         🅿
                     </div>
 
-                    <h3>City Mall Parking</h3>
+                    <h4>City Mall Parking</h4>
 
-                    <div class="location">
+                    <p>
                         📍 Kochi
-                    </div>
+                    </p>
 
-                    <span class="status">
-                        ● Available
+                    <p>
+                        Selected parking slot
+                    </p>
+
+                    <span class="slot-label">
+                        Slot A1 · Selected
                     </span>
-
-                    <a href="/parking-slots/" class="view-btn">
-                        View Parking Slots →
-                    </a>
 
                 </div>
 
 
-                <div class="parking-card">
+                <!-- Booking Form -->
+                <div class="form-card">
 
-                    <div class="parking-icon">
-                        🏥
+                    <h3>Reservation Details</h3>
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="form-group">
+
+                            <label for="vehicle_type">
+                                Vehicle Type
+                            </label>
+
+                            <select id="vehicle_type" name="vehicle_type" required>
+
+                                <option value="">
+                                    Select vehicle type
+                                </option>
+
+                                <option value="two_wheeler">
+                                    Two Wheeler
+                                </option>
+
+                                <option value="four_wheeler">
+                                    Four Wheeler
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="vehicle_number">
+                                Vehicle Number
+                            </label>
+
+                            <input
+                                type="text"
+                                id="vehicle_number"
+                                name="vehicle_number"
+                                placeholder="Example: KL-00-XX-0000"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="booking_date">
+                                    Booking Date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    id="booking_date"
+                                    name="booking_date"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="expected_arrival">
+                                    Expected Arrival
+                                </label>
+
+                                <input
+                                    type="time"
+                                    id="expected_arrival"
+                                    name="expected_arrival"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="reservation_expiry">
+                                Reservation Expiry
+                            </label>
+
+                            <input
+                                type="time"
+                                id="reservation_expiry"
+                                name="reservation_expiry"
+                                required
+                            >
+
+                        </div>
+
+
+                        <button type="submit" class="confirm-btn">
+                            Confirm Booking →
+                        </button>
+
+                    </form>
+
+
+                    <div class="notice">
+                        Please check your vehicle details and selected time before confirming your booking.
                     </div>
-
-                    <h3>City Hospital Parking</h3>
-
-                    <div class="location">
-                        📍 Kochi
-                    </div>
-
-                    <span class="status">
-                        ● Available
-                    </span>
-
-                    <a href="/parking-slots/" class="view-btn">
-                        View Parking Slots →
-                    </a>
 
                 </div>
 
-
-                <div class="parking-card">
-
-                    <div class="parking-icon">
-                        🛒
-                    </div>
-
-                    <h3>Supermarket Parking</h3>
-
-                    <div class="location">
-                        📍 Kochi
-                    </div>
-
-                    <span class="status">
-                        ● Available
-                    </span>
-
-                    <a href="/parking-slots/" class="view-btn">
-                        View Parking Slots →
-                    </a>
-
-                </div>
-
-            </section>
+            </div>
 
 
             <div class="back">
-                <a href="/user/dashboard/">← Back to Dashboard</a>
+                <a href="/parking-slots/">← Back to Parking Slots</a>
             </div>
 
         </main>

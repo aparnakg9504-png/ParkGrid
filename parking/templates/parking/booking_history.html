@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkGrid - Booking History</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fa;
+            color: #243b53;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #102a43;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 35px;
+            color: #2ec4b6;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #d9e2ec;
+            text-decoration: none;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .sidebar a:hover {
+            background: #167d8d;
+            color: white;
+        }
+
+        .sidebar a.active {
+            background: #167d8d;
+            color: white;
+        }
+
+        .main {
+            margin-left: 240px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .topbar h2 {
+            font-size: 22px;
+            color: #102a43;
+        }
+
+        .topbar span {
+            color: #627d98;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 35px;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            font-size: 30px;
+            color: #102a43;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #627d98;
+            font-size: 15px;
+        }
+
+        .history-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 18px;
+            box-shadow: 0 5px 20px rgba(16, 42, 67, 0.08);
+            border: 1px solid #e6edf2;
+        }
+
+        .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .booking-header h3 {
+            color: #102a43;
+            font-size: 19px;
+        }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .completed {
+            background: #e6f7f1;
+            color: #16805c;
+        }
+
+        .cancelled {
+            background: #fdecec;
+            color: #c0392b;
+        }
+
+        .booking-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .info-item {
+            background: #f7f9fb;
+            padding: 15px;
+            border-radius: 9px;
+        }
+
+        .info-item span {
+            display: block;
+            color: #829ab1;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .info-item strong {
+            color: #243b53;
+            font-size: 14px;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 12px 22px;
+            background: #167d8d;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background: #126875;
+        }
+
+        @media (max-width: 900px) {
+            .booking-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .booking-info {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-header {
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar">
+
+        <div class="logo">
+            ParkGrid
+        </div>
+
+        <a href="/user/dashboard/">🏠 Dashboard</a>
+
+        <a href="/parking-list/">🅿️ Find Parking</a>
+
+        <a href="/my-bookings/">📋 My Bookings</a>
+
+        <a href="/booking-history/" class="active">🕘 Booking History</a>
+
+        <a href="/complaints/">⚠️ Complaints</a>
+
+        <a href="/complaint-status/">📌 Complaint Status</a>
+
+        <a href="/logout/">🚪 Logout</a>
+
+    </div>
+
+
+    <div class="main">
+
+        <div class="topbar">
+
+            <h2>Booking History</h2>
+
+            <span>ParkGrid Customer Portal</span>
+
+        </div>
+
+
+        <div class="content">
+
+            <div class="page-heading">
+
+                <h1>Booking History</h1>
+
+                <p>View your previous parking reservations and their status.</p>
+
+            </div>
+
+
+            <!-- Booking 1 -->
+
+            <div class="history-card">
+
+                <div class="booking-header">
+
+                    <h3>Booking #1001</h3>
+
+                    <span class="status completed">
+                        Completed
+                    </span>
+
+                </div>
+
+
+                <div class="booking-info">
+
+                    <div class="info-item">
+                        <span>Parking Location</span>
+                        <strong>City Mall Parking</strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span>Slot</span>
+                        <strong>A1</strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span>Vehicle Number</span>
+                        <strong>KL-00-XX-0000</strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span>Booking Date</span>
+                        <strong>20 September 2026</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Booking 2 -->
+
+            <div class="history-card">
+
+                <div class="booking-header">
+
+                    <h3>Booking #1002</h3>
+
+                    <span class="status cancelled">
+                        Cancelled
+                    </span>
+
+                </div>
+
+
+                <div class="booking-info">
+
+                    <div class="info-item">
+                        <span>Parking Location</span>
+                        <strong>City Hospital Parking</strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span>Slot</span>
+                        <strong>B2</strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span>Vehicle Number</span>
+                        <strong>KL-00-YY-0000</strong>
+                    </div>
+
+                    <div class="info-item">
+                        <span>Booking Date</span>
+                        <strong>18 September 2026</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <a href="/user/dashboard/" class="back-button">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

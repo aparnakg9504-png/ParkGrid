@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ParkGrid - Complaints</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fa;
+            color: #243b53;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #102a43;
+            color: white;
+            padding: 25px 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 35px;
+            color: #2ec4b6;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #d9e2ec;
+            text-decoration: none;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .sidebar a:hover {
+            background: #167d8d;
+            color: white;
+        }
+
+        .sidebar a.active {
+            background: #167d8d;
+            color: white;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 240px;
+            min-height: 100vh;
+        }
+
+        /* TOP BAR */
+
+        .topbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 35px;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .topbar h2 {
+            font-size: 22px;
+            color: #102a43;
+        }
+
+        .topbar span {
+            color: #627d98;
+            font-size: 14px;
+        }
+
+        /* CONTENT */
+
+        .content {
+            padding: 35px;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            font-size: 30px;
+            color: #102a43;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #627d98;
+            font-size: 15px;
+        }
+
+        /* COMPLAINT BOX */
+
+        .complaint-box {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            max-width: 850px;
+            box-shadow: 0 5px 20px rgba(16, 42, 67, 0.08);
+            border: 1px solid #e6edf2;
+        }
+
+        .complaint-box h2 {
+            color: #102a43;
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #627d98;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* FORM */
+
+        form p {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            color: #243b53;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #bcccdc;
+            border-radius: 8px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #167d8d;
+        }
+
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+        }
+
+        .helptext {
+            display: block;
+            margin-top: 5px;
+            color: #829ab1;
+            font-size: 12px;
+        }
+
+        .errorlist {
+            list-style: none;
+            color: #c0392b;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        /* BUTTON */
+
+        .button-area {
+            margin-top: 25px;
+        }
+
+        .submit-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #167d8d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background: #126875;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 12px 22px;
+            background: #eef3f7;
+            color: #243b53;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background: #d9e2ec;
+        }
+
+        /* NOTE */
+
+        .note {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f7f8;
+            border-left: 4px solid #2ec4b6;
+            border-radius: 6px;
+            color: #486581;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .back-button {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            ParkGrid
+        </div>
+
+        <a href="/user/dashboard/">
+            🏠 Dashboard
+        </a>
+
+        <a href="/parking-list/">
+            🅿️ Find Parking
+        </a>
+
+        <a href="/my-bookings/">
+            📋 My Bookings
+        </a>
+
+        <a href="/booking-history/">
+            🕘 Booking History
+        </a>
+
+        <a href="/complaints/" class="active">
+            ⚠️ Complaints
+        </a>
+
+        <a href="/complaint-status/">
+            📌 Complaint Status
+        </a>
+
+        <a href="/logout/">
+            🚪 Logout
+        </a>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <div class="topbar">
+
+            <h2>Complaints</h2>
+
+            <span>ParkGrid Customer Portal</span>
+
+        </div>
+
+
+        <div class="content">
+
+            <div class="page-heading">
+
+                <h1>Submit a Complaint</h1>
+
+                <p>
+                    Report an issue related to parking, bookings, slots or other services.
+                </p>
+
+            </div>
+
+
+            <div class="complaint-box">
+
+                <h2>Complaint Details</h2>
+
+                <p class="description">
+                    Please provide the required information so our team can review your complaint.
+                </p>
+
+
+                <form method="POST" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+
+                    <div class="button-area">
+
+                        <button type="submit" class="submit-button">
+                            Submit Complaint
+                        </button>
+
+                        <a href="/user/dashboard/" class="back-button">
+                            ← Back to Dashboard
+                        </a>
+
+                    </div>
+
+                </form>
+
+
+                <div class="note">
+
+                    <strong>Note:</strong>
+                    Please provide clear and accurate details about your issue.
+                    You may also attach a photo if it helps explain the problem.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
