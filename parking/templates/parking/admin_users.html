@@ -1,13 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Manage Users - ParkGrid</title>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -17,55 +18,49 @@
 
         body {
             background: #f5f7fb;
-            display: flex;
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
+        /* ================= SIDEBAR ================= */
+
         .sidebar {
-            width: 240px;
-            background: #2563eb;
-            color: white;
-            min-height: 100vh;
-            padding: 25px 15px;
             position: fixed;
             left: 0;
             top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #2474ff;
+            color: white;
+            padding: 25px 18px;
         }
 
         .logo {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: bold;
-            text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 40px;
+            padding-left: 10px;
         }
 
-        .menu {
-            list-style: none;
-        }
-
-        .menu li {
-            margin-bottom: 8px;
-        }
-
-        .menu a {
+        .sidebar a {
             display: block;
+            padding: 13px 15px;
+            margin-bottom: 8px;
             color: white;
             text-decoration: none;
-            padding: 13px 15px;
             border-radius: 8px;
             font-size: 15px;
+            transition: 0.2s;
         }
 
-        .menu a:hover,
-        .menu a.active {
+        .sidebar a:hover,
+        .sidebar a.active {
             background: rgba(255, 255, 255, 0.18);
         }
 
-        /* MAIN CONTENT */
+        /* ================= MAIN CONTENT ================= */
+
         .main-content {
             margin-left: 240px;
-            width: calc(100% - 240px);
             padding: 35px;
         }
 
@@ -84,7 +79,8 @@
             font-size: 14px;
         }
 
-        /* SEARCH */
+        /* ================= SEARCH ================= */
+
         .search-box {
             background: white;
             padding: 20px;
@@ -108,11 +104,11 @@
         }
 
         .search-box input:focus {
-            border-color: #2563eb;
+            border-color: #2474ff;
         }
 
         .search-btn {
-            background: #2563eb;
+            background: #2474ff;
             color: white;
             border: none;
             padding: 12px 22px;
@@ -122,10 +118,11 @@
         }
 
         .search-btn:hover {
-            background: #1d4ed8;
+            background: #1e5eff;
         }
 
-        /* TABLE */
+        /* ================= TABLE ================= */
+
         .table-container {
             background: white;
             border-radius: 12px;
@@ -161,7 +158,8 @@
             background: #f8fafc;
         }
 
-        /* STATUS */
+        /* ================= STATUS ================= */
+
         .status {
             display: inline-block;
             padding: 6px 11px;
@@ -185,7 +183,8 @@
             color: #991b1b;
         }
 
-        /* ACTION BUTTONS */
+        /* ================= ACTION BUTTONS ================= */
+
         .action-btn {
             display: inline-block;
             text-decoration: none;
@@ -214,7 +213,8 @@
             background: #fecaca;
         }
 
-        /* MESSAGES */
+        /* ================= MESSAGES ================= */
+
         .messages {
             margin-bottom: 20px;
         }
@@ -241,22 +241,24 @@
             color: #991b1b;
         }
 
-        /* EMPTY STATE */
+        /* ================= EMPTY STATE ================= */
+
         .empty-state {
             text-align: center;
             padding: 40px;
             color: #64748b;
         }
 
-        /* RESPONSIVE */
+        /* ================= RESPONSIVE ================= */
+
         @media (max-width: 768px) {
+
             .sidebar {
-                width: 200px;
+                width: 190px;
             }
 
             .main-content {
-                margin-left: 200px;
-                width: calc(100% - 200px);
+                margin-left: 190px;
                 padding: 20px;
             }
 
@@ -267,247 +269,265 @@
             .search-btn {
                 width: 100%;
             }
+
         }
+
     </style>
+
 </head>
 
 <body>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
 
-        <div class="logo">
-            🅿️ ParkGrid
-        </div>
+<!-- ================= SIDEBAR ================= -->
 
-        <ul class="menu">
+<div class="sidebar">
 
-            <li>
-                <a href="{% url 'admin_dashboard' %}">
-                    📊 Dashboard
-                </a>
-            </li>
+    <div class="logo">
+        ParkGrid
+    </div>
 
-            <li>
-                <a href="{% url 'admin_users' %}" class="active">
-                    👥 Users
-                </a>
-            </li>
+    <a href="{% url 'admin_dashboard' %}">
+        🏠 Dashboard
+    </a>
 
-            <li>
-                <a href="{% url 'admin_managers' %}">
-                    🅿️ Parking Managers
-                </a>
-            </li>
+    <a href="{% url 'admin_users' %}" class="active">
+        👤 Users
+    </a>
 
-            <li>
-                <a href="#">
-                    📍 Parking Locations
-                </a>
-            </li>
+    <a href="{% url 'admin_managers' %}">
+        👨‍💼 Parking Managers
+    </a>
 
-            <li>
-                <a href="#">
-                    📅 Bookings
-                </a>
-            </li>
+    <a href="{% url 'admin_parking_locations' %}">
+        📍 Parking Locations
+    </a>
 
-            <li>
-                <a href="#">
-                    💬 Complaints
-                </a>
-            </li>
+    <a href="{% url 'admin_bookings' %}">
+        📅 Bookings
+    </a>
 
-            <li>
-                <a href="#">
-                    📈 Reports
-                </a>
-            </li>
+    <a href="{% url 'admin_complaints' %}">
+        ⚠️ Complaints
+    </a>
 
-            <li>
-                <a href="{% url 'login' %}">
-                    🚪 Logout
-                </a>
-            </li>
+    <a href="{% url 'admin_reports' %}">
+        📊 Reports
+    </a>
 
-        </ul>
+    <a href="{% url 'logout' %}">
+        🚪 Logout
+    </a>
+
+</div>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+
+<div class="main-content">
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <h1>
+            Manage Users
+        </h1>
+
+        <p>
+            View and manage registered ParkGrid users.
+        </p>
 
     </div>
 
 
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
+    <!-- MESSAGES -->
 
-        <div class="page-header">
-            <h1>Manage Users</h1>
-            <p>View and manage registered ParkGrid users.</p>
-        </div>
+    {% if messages %}
 
+        <div class="messages">
 
-        <!-- MESSAGES -->
-        {% if messages %}
-            <div class="messages">
+            {% for message in messages %}
 
-                {% for message in messages %}
-                    <div class="message {{ message.tags }}">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
 
-            </div>
-        {% endif %}
-
-
-        <!-- SEARCH -->
-        <div class="search-box">
-
-            <form method="GET">
-
-                <input
-                    type="text"
-                    name="search"
-                    placeholder="Search by name, email, phone or username..."
-                    value="{{ search }}"
-                >
-
-                <button type="submit" class="search-btn">
-                    🔍 Search
-                </button>
-
-            </form>
+            {% endfor %}
 
         </div>
-
-
-        <!-- USERS TABLE -->
-        <div class="table-container">
-
-            <table>
-
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Registered</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    {% for user in users %}
-
-                        <tr>
-
-                            <td>
-                                {{ forloop.counter }}
-                            </td>
-
-                            <td>
-                                {{ user.first_name|default:user.username }}
-                            </td>
-
-                            <td>
-                                {{ user.email }}
-                            </td>
-
-                            <td>
-                                {{ user.phone|default:"-" }}
-                            </td>
-
-                            <td>
-                                {{ user.date_joined|date:"d M Y" }}
-                            </td>
-
-                            <!-- APPROVAL STATUS -->
-                            <td>
-
-                                {% if user.approval_status == 'pending' %}
-
-                                    <span class="status pending-status">
-                                        Pending
-                                    </span>
-
-                                {% elif user.approval_status == 'approved' %}
-
-                                    <span class="status active-status">
-                                        Approved
-                                    </span>
-
-                                {% else %}
-
-                                    <span class="status inactive-status">
-                                        Rejected
-                                    </span>
-
-                                {% endif %}
-
-                            </td>
-
-
-                            <!-- ACTION -->
-                           
-<td>
-
-    {% if user.approval_status == 'pending' %}
-
-        <a href="{% url 'approve_user' user.id %}"
-           class="action-btn toggle-btn">
-            ✓ Approve
-        </a>
-
-        <a href="{% url 'reject_user' user.id %}"
-           class="action-btn delete-btn">
-            ✕ Reject
-        </a>
-
-    {% elif user.approval_status == 'approved' %}
-
-        <a href="{% url 'deactivate_user' user.id %}"
-           class="action-btn delete-btn">
-            Deactivate
-        </a>
-
-    {% else %}
-
-        <a href="{% url 'approve_user' user.id %}"
-           class="action-btn toggle-btn">
-            Activate
-        </a>
 
     {% endif %}
 
-</td>
 
+    <!-- SEARCH -->
 
+    <div class="search-box">
 
-                        </tr>
+        <form method="GET">
 
-                    {% empty %}
+            <input
+                type="text"
+                name="search"
+                placeholder="Search by name, email, phone or username..."
+                value="{{ search }}"
+            >
 
-                        <tr>
-                            <td colspan="7">
+            <button type="submit" class="search-btn">
+                🔍 Search
+            </button>
 
-                                <div class="empty-state">
-                                    No users found.
-                                </div>
-
-                            </td>
-                        </tr>
-
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
-        </div>
+        </form>
 
     </div>
 
+
+    <!-- USERS TABLE -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Registered</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for user in users %}
+
+                    <tr>
+
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+
+                        <td>
+                            {{ user.first_name|default:user.username }}
+                        </td>
+
+                        <td>
+                            {{ user.email }}
+                        </td>
+
+                        <td>
+                            {{ user.phone|default:"-" }}
+                        </td>
+
+                        <td>
+                            {{ user.date_joined|date:"d M Y" }}
+                        </td>
+
+
+                        <!-- APPROVAL STATUS -->
+
+                        <td>
+
+                            {% if user.approval_status == 'pending' %}
+
+                                <span class="status pending-status">
+                                    Pending
+                                </span>
+
+                            {% elif user.approval_status == 'approved' %}
+
+                                <span class="status active-status">
+                                    Approved
+                                </span>
+
+                            {% else %}
+
+                                <span class="status inactive-status">
+                                    Rejected
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- ACTION -->
+
+                        <td>
+
+                            {% if user.approval_status == 'pending' %}
+
+                                <a
+                                    href="{% url 'approve_user' user.id %}"
+                                    class="action-btn toggle-btn"
+                                >
+                                    ✓ Approve
+                                </a>
+
+                                <a
+                                    href="{% url 'reject_user' user.id %}"
+                                    class="action-btn delete-btn"
+                                >
+                                    ✕ Reject
+                                </a>
+
+                            {% elif user.approval_status == 'approved' %}
+
+                                <a
+                                    href="{% url 'deactivate_user' user.id %}"
+                                    class="action-btn delete-btn"
+                                >
+                                    Deactivate
+                                </a>
+
+                            {% else %}
+
+                                <a
+                                    href="{% url 'approve_user' user.id %}"
+                                    class="action-btn toggle-btn"
+                                >
+                                    Activate
+                                </a>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="7">
+
+                            <div class="empty-state">
+                                No users found.
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
 </body>
 </html>
-

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Bookings | ParkGrid</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #333;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #2474ff;
+            padding: 25px 15px;
+            color: white;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            padding-left: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 13px 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #1e5eff;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #222;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-form input:focus {
+            border-color: #2474ff;
+        }
+
+        .search-btn {
+            background: #2474ff;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .search-btn:hover {
+            background: #1e5eff;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th {
+            background: #f8faff;
+            color: #555;
+            font-size: 13px;
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .booking-id {
+            font-weight: bold;
+            color: #2474ff;
+        }
+
+        .user-name {
+            font-weight: 600;
+        }
+
+        .location-name {
+            font-weight: 600;
+        }
+
+        .vehicle-number {
+            font-weight: 600;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-reserved {
+            background: #fff4cc;
+            color: #9a7200;
+        }
+
+        .status-active {
+            background: #dff7e7;
+            color: #16803c;
+        }
+
+        .status-completed {
+            background: #e5e7eb;
+            color: #555;
+        }
+
+        .status-expired {
+            background: #ffe1e1;
+            color: #c62828;
+        }
+
+        .status-cancelled {
+            background: #f0e0ff;
+            color: #7b2cbf;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            color: #888;
+        }
+
+        .message {
+            padding: 12px 15px;
+            background: #e8f2ff;
+            color: #2474ff;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+                padding: 20px;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <div class="logo">
+            ParkGrid
+        </div>
+
+        <a href="{% url 'admin_dashboard' %}">
+            🏠 Dashboard
+        </a>
+
+        <a href="{% url 'admin_users' %}">
+            👤 Users
+        </a>
+
+        <a href="{% url 'admin_managers' %}">
+            👨‍💼 Parking Managers
+        </a>
+
+        <a href="{% url 'admin_parking_locations' %}">
+            📍 Parking Locations
+        </a>
+
+        <a href="{% url 'admin_bookings' %}" class="active">
+            📅 Bookings
+        </a>
+
+        <a href="{% url 'admin_complaints' %}">
+            ⚠️ Complaints
+        </a>
+
+        <a href="{% url 'admin_reports' %}">
+            📊 Reports
+        </a>
+
+        <a href="{% url 'logout' %}">
+            🚪 Logout
+        </a>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+        <div class="header">
+            <div>
+                <h1>Bookings</h1>
+
+                <p class="subtitle">
+                    Monitor all parking bookings
+                </p>
+            </div>
+        </div>
+
+
+        <!-- SEARCH -->
+        <div class="search-box">
+
+            <form method="GET" class="search-form">
+
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ search }}"
+                    placeholder="Search by user, vehicle number, parking location or slot..."
+                >
+
+                <button type="submit" class="search-btn">
+                    Search
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- BOOKINGS TABLE -->
+        <div class="table-container">
+
+            {% if bookings %}
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>User</th>
+                        <th>Parking Facility</th>
+                        <th>Slot</th>
+                        <th>Vehicle</th>
+                        <th>Booking Date</th>
+                        <th>Expected Arrival</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for booking in bookings %}
+
+                    <tr>
+
+                        <!-- BOOKING ID -->
+                        <td>
+                            <span class="booking-id">
+                                #{{ booking.id }}
+                            </span>
+                        </td>
+
+
+                        <!-- USER -->
+                        <td>
+
+                            <div class="user-name">
+                                {{ booking.user.first_name }}
+                            </div>
+
+                            <small>
+                                {{ booking.user.email }}
+                            </small>
+
+                        </td>
+
+
+                        <!-- PARKING FACILITY -->
+                        <td>
+
+                            <span class="location-name">
+                                {{ booking.location.name }}
+                            </span>
+
+                            <br>
+
+                            <small>
+                                {{ booking.location.city }}
+                            </small>
+
+                        </td>
+
+
+                        <!-- SLOT -->
+                        <td>
+                            {{ booking.slot.slot_number }}
+                        </td>
+
+
+                        <!-- VEHICLE -->
+                        <td>
+
+                            <span class="vehicle-number">
+                                {{ booking.vehicle_number }}
+                            </span>
+
+                            <br>
+
+                            <small>
+                                {{ booking.get_vehicle_type_display }}
+                            </small>
+
+                        </td>
+
+
+                        <!-- BOOKING DATE -->
+                        <td>
+                            {{ booking.booking_date|date:"d M Y" }}
+                        </td>
+
+
+                        <!-- EXPECTED ARRIVAL -->
+                        <td>
+                            {{ booking.expected_arrival|date:"d M Y, h:i A" }}
+                        </td>
+
+
+                        <!-- STATUS -->
+                        <td>
+
+                            {% if booking.status == 'reserved' %}
+
+                                <span class="status status-reserved">
+                                    Reserved
+                                </span>
+
+                            {% elif booking.status == 'active' %}
+
+                                <span class="status status-active">
+                                    Active
+                                </span>
+
+                            {% elif booking.status == 'completed' %}
+
+                                <span class="status status-completed">
+                                    Completed
+                                </span>
+
+                            {% elif booking.status == 'expired' %}
+
+                                <span class="status status-expired">
+                                    Expired
+                                </span>
+
+                            {% elif booking.status == 'cancelled' %}
+
+                                <span class="status status-cancelled">
+                                    Cancelled
+                                </span>
+
+                            {% else %}
+
+                                <span class="status">
+                                    {{ booking.status }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <!-- EMPTY STATE -->
+            <div class="no-data">
+
+                <h3>
+                    No bookings found
+                </h3>
+
+                <p>
+                    There are no bookings matching your search.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+</html>

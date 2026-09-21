@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +29,7 @@
             top: 0;
             width: 240px;
             height: 100vh;
-            background: #1e5eff;
+            background: #2474ff;
             color: white;
             padding: 25px 18px;
         }
@@ -42,17 +41,10 @@
             padding-left: 10px;
         }
 
-        .menu {
-            list-style: none;
-        }
-
-        .menu li {
-            margin-bottom: 8px;
-        }
-
-        .menu a {
+        .sidebar a {
             display: block;
             padding: 13px 15px;
+            margin-bottom: 8px;
             color: white;
             text-decoration: none;
             border-radius: 8px;
@@ -60,29 +52,9 @@
             transition: 0.2s;
         }
 
-        .menu a:hover,
-        .menu a.active {
+        .sidebar a:hover,
+        .sidebar a.active {
             background: rgba(255, 255, 255, 0.18);
-        }
-
-        .logout {
-            position: absolute;
-            bottom: 25px;
-            left: 18px;
-            right: 18px;
-        }
-
-        .logout a {
-            display: block;
-            padding: 13px 15px;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .logout a:hover {
-            background: rgba(255, 255, 255, 0.22);
         }
 
         /* MAIN CONTENT */
@@ -148,46 +120,6 @@
             font-size: 20px;
         }
 
-        /* QUICK ACTIONS */
-
-        .section-title {
-            font-size: 21px;
-            color: #222;
-            margin-bottom: 18px;
-        }
-
-        .actions {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            margin-bottom: 30px;
-        }
-
-        .action {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #222;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
-            transition: 0.2s;
-        }
-
-        .action:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.09);
-        }
-
-        .action h3 {
-            font-size: 16px;
-            margin-bottom: 7px;
-        }
-
-        .action p {
-            font-size: 13px;
-            color: #777;
-        }
-
         /* INFO BOX */
 
         .info-box {
@@ -203,12 +135,17 @@
             line-height: 1.7;
         }
 
+        .section-title {
+            font-size: 21px;
+            color: #222;
+            margin-bottom: 18px;
+        }
+
         /* RESPONSIVE */
 
         @media (max-width: 900px) {
 
-            .stats,
-            .actions {
+            .stats {
                 grid-template-columns: repeat(2, 1fr);
             }
 
@@ -225,8 +162,7 @@
                 padding: 20px;
             }
 
-            .stats,
-            .actions {
+            .stats {
                 grid-template-columns: 1fr;
             }
 
@@ -251,60 +187,37 @@
         ParkGrid
     </div>
 
-    <ul class="menu">
+    <a href="{% url 'admin_dashboard' %}" class="active">
+        🏠 Dashboard
+    </a>
 
-        <li>
-            <a href="#" class="active">
-                🏠 Dashboard
-            </a>
-        </li>
+    <a href="{% url 'admin_users' %}">
+        👤 Users
+    </a>
 
-        <li>
-        <a href="{% url 'admin_users' %}">
-    👥 Users
-</a>
-        </li>
+    <a href="{% url 'admin_managers' %}">
+        👨‍💼 Parking Managers
+    </a>
 
-        <li>
-            <a href="{% url 'admin_managers' %}">
-    🅿️ Parking Managers
-</a>
-        </li>
+    <a href="{% url 'admin_parking_locations' %}">
+        📍 Parking Locations
+    </a>
 
-        <li>
-            <a href="#">
-                📍 Parking Locations
-            </a>
-        </li>
+    <a href="{% url 'admin_bookings' %}">
+        📅 Bookings
+    </a>
 
-        <li>
-            <a href="#">
-                📋 Bookings
-            </a>
-        </li>
+    <a href="{% url 'admin_complaints' %}">
+        ⚠️ Complaints
+    </a>
 
-        <li>
-            <a href="#">
-                ⚠️ Complaints
-            </a>
-        </li>
+    <a href="{% url 'admin_reports' %}">
+        📊 Reports
+    </a>
 
-        <li>
-            <a href="#">
-                📊 Reports
-            </a>
-        </li>
-
-    </ul>
-
-
-    <div class="logout">
-
-        <a href="{% url 'logout' %}">
-            🚪 Logout
-        </a>
-
-    </div>
+    <a href="{% url 'logout' %}">
+        🚪 Logout
+    </a>
 
 </div>
 
@@ -358,7 +271,7 @@
         <div class="card">
 
             <div class="card-icon">
-                🅿️
+                👨‍💼
             </div>
 
             <div class="card-title">
@@ -415,7 +328,7 @@
         <div class="card">
 
             <div class="card-icon">
-                📋
+                📅
             </div>
 
             <div class="card-title">
@@ -450,94 +363,6 @@
     </div>
 
 
-    <!-- QUICK ACTIONS -->
-
-    <h2 class="section-title">
-        Quick Actions
-    </h2>
-
-    <div class="actions">
-
-        <a href="#" class="action">
-
-            <h3>
-                👤 Manage Users
-            </h3>
-
-            <p>
-                View and manage registered users.
-            </p>
-
-        </a>
-
-
-        <a href="#" class="action">
-
-            <h3>
-                🅿️ Manage Managers
-            </h3>
-
-            <p>
-                View and manage parking managers.
-            </p>
-
-        </a>
-
-
-        <a href="#" class="action">
-
-            <h3>
-                📍 Parking Locations
-            </h3>
-
-            <p>
-                Monitor registered parking facilities.
-            </p>
-
-        </a>
-
-
-        <a href="#" class="action">
-
-            <h3>
-                📋 View Bookings
-            </h3>
-
-            <p>
-                Monitor all parking bookings.
-            </p>
-
-        </a>
-
-
-        <a href="#" class="action">
-
-            <h3>
-                ⚠️ Complaints
-            </h3>
-
-            <p>
-                Review and respond to complaints.
-            </p>
-
-        </a>
-
-
-        <a href="#" class="action">
-
-            <h3>
-                📊 Reports
-            </h3>
-
-            <p>
-                View ParkGrid statistics and reports.
-            </p>
-
-        </a>
-
-    </div>
-
-
     <!-- INFORMATION -->
 
     <div class="info-box">
@@ -560,4 +385,3 @@
 
 </body>
 </html>
-

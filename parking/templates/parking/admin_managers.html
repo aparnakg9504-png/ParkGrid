@@ -1,13 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Parking Managers - ParkGrid</title>
 
     <style>
+
         * {
             margin: 0;
             padding: 0;
@@ -17,10 +18,10 @@
 
         body {
             background: #f5f7fb;
-            color: #1f2937;
+            min-height: 100vh;
         }
 
-        /* Sidebar */
+        /* ================= SIDEBAR ================= */
 
         .sidebar {
             position: fixed;
@@ -28,78 +29,64 @@
             top: 0;
             width: 240px;
             height: 100vh;
-            background: #2563eb;
+            background: #2474ff;
             color: white;
-            padding: 25px 15px;
+            padding: 25px 18px;
         }
 
         .logo {
-            font-size: 25px;
+            font-size: 28px;
             font-weight: bold;
-            margin-bottom: 35px;
+            margin-bottom: 40px;
             padding-left: 10px;
         }
 
-        .nav a {
+        .sidebar a {
             display: block;
-            text-decoration: none;
-            color: white;
             padding: 13px 15px;
             margin-bottom: 8px;
+            color: white;
+            text-decoration: none;
             border-radius: 8px;
             font-size: 15px;
+            transition: 0.2s;
         }
 
-        .nav a:hover,
-        .nav a.active {
+        .sidebar a:hover,
+        .sidebar a.active {
             background: rgba(255, 255, 255, 0.18);
         }
 
-        .logout {
-            position: absolute;
-            bottom: 25px;
-            left: 15px;
-            right: 15px;
-        }
-
-        .logout a {
-            display: block;
-            text-align: center;
-            text-decoration: none;
-            color: white;
-            border: 1px solid rgba(255,255,255,0.5);
-            padding: 11px;
-            border-radius: 8px;
-        }
-
-        /* Main */
+        /* ================= MAIN CONTENT ================= */
 
         .main {
             margin-left: 240px;
             padding: 35px;
         }
 
-        .header {
-            margin-bottom: 25px;
+        .topbar {
+            margin-bottom: 30px;
         }
 
-        .header h1 {
-            font-size: 28px;
+        .topbar h1 {
+            font-size: 30px;
+            color: #222;
+            margin-bottom: 7px;
         }
 
-        .header p {
-            color: #6b7280;
-            margin-top: 5px;
+        .topbar p {
+            color: #777;
+            font-size: 15px;
         }
 
-        /* Search */
+        /* ================= SEARCH ================= */
 
         .search-box {
             background: white;
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
         }
 
         .search-form {
@@ -117,17 +104,21 @@
         }
 
         .search-form input:focus {
-            border-color: #2563eb;
+            border-color: #1e5eff;
         }
 
         .search-btn {
-            background: #2563eb;
+            background: #1e5eff;
             color: white;
             border: none;
             padding: 12px 22px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
+        }
+
+        .search-btn:hover {
+            background: #174dcc;
         }
 
         .clear-btn {
@@ -138,13 +129,17 @@
             border-radius: 8px;
         }
 
-        /* Table */
+        .clear-btn:hover {
+            background: #d1d5db;
+        }
+
+        /* ================= TABLE ================= */
 
         .table-container {
             background: white;
             border-radius: 12px;
             overflow-x: auto;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
         }
 
         table {
@@ -166,17 +161,18 @@
             padding: 16px;
             border-bottom: 1px solid #f0f0f0;
             font-size: 14px;
+            color: #374151;
         }
 
         tr:last-child td {
             border-bottom: none;
         }
 
-        /* Status */
+        /* ================= STATUS ================= */
 
         .status {
             display: inline-block;
-            padding: 5px 10px;
+            padding: 6px 11px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: bold;
@@ -197,7 +193,7 @@
             color: #991b1b;
         }
 
-        /* Buttons */
+        /* ================= ACTION BUTTONS ================= */
 
         .action-btn {
             display: inline-block;
@@ -223,13 +219,15 @@
             opacity: 0.8;
         }
 
+        /* ================= EMPTY ================= */
+
         .empty {
             text-align: center;
             padding: 45px;
             color: #6b7280;
         }
 
-        /* Mobile */
+        /* ================= RESPONSIVE ================= */
 
         @media (max-width: 800px) {
 
@@ -245,240 +243,243 @@
             .search-form {
                 flex-direction: column;
             }
+
         }
+
     </style>
+
 </head>
 
 <body>
 
-    <!-- Sidebar -->
 
-    <div class="sidebar">
+<!-- ================= SIDEBAR ================= -->
 
-        <div class="logo">
-            🅿️ ParkGrid
-        </div>
+<div class="sidebar">
 
-        <div class="nav">
+    <div class="logo">
+        ParkGrid
+    </div>
 
-            <a href="{% url 'admin_dashboard' %}">
-                📊 Dashboard
-            </a>
+    <a href="{% url 'admin_dashboard' %}">
+        🏠 Dashboard
+    </a>
 
-            <a href="{% url 'admin_users' %}">
-                👥 Users
-            </a>
+    <a href="{% url 'admin_users' %}">
+        👤 Users
+    </a>
 
-            <a href="{% url 'admin_managers' %}" class="active">
-                🅿️ Parking Managers
-            </a>
+    <a href="{% url 'admin_managers' %}" class="active">
+        👨‍💼 Parking Managers
+    </a>
 
-            <a href="#">
-                📍 Parking Locations
-            </a>
+    <a href="{% url 'admin_parking_locations' %}">
+        📍 Parking Locations
+    </a>
 
-            <a href="#">
-                📋 Bookings
-            </a>
+    <a href="{% url 'admin_bookings' %}">
+        📅 Bookings
+    </a>
 
-            <a href="#">
-                💬 Complaints
-            </a>
+    <a href="{% url 'admin_complaints' %}">
+        ⚠️ Complaints
+    </a>
 
-            <a href="#">
-                📈 Reports
-            </a>
+    <a href="{% url 'admin_reports' %}">
+        📊 Reports
+    </a>
 
-        </div>
+    <a href="{% url 'logout' %}">
+        🚪 Logout
+    </a>
 
-        <div class="logout">
+</div>
 
-            <a href="{% url 'logout' %}">
-                Logout
-            </a>
 
-        </div>
+<!-- ================= MAIN CONTENT ================= -->
+
+<div class="main">
+
+
+    <!-- HEADER -->
+
+    <div class="topbar">
+
+        <h1>
+            Parking Managers
+        </h1>
+
+        <p>
+            Review and manage parking manager registrations.
+        </p>
 
     </div>
 
 
-    <!-- Main Content -->
+    <!-- SEARCH -->
 
-    <div class="main">
+    <div class="search-box">
 
-        <div class="header">
+        <form method="GET" class="search-form">
 
-            <h1>Parking Managers</h1>
+            <input
+                type="text"
+                name="search"
+                placeholder="Search by name, email or phone..."
+                value="{{ search }}"
+            >
 
-            <p>
-                Review and manage parking manager registrations
-            </p>
+            <button type="submit" class="search-btn">
+                🔍 Search
+            </button>
 
-        </div>
+            {% if search %}
 
-
-        <!-- Search -->
-
-        <div class="search-box">
-
-            <form method="GET" class="search-form">
-
-                <input
-                    type="text"
-                    name="search"
-                    placeholder="Search by name, email or phone..."
-                    value="{{ search }}"
+                <a
+                    href="{% url 'admin_managers' %}"
+                    class="clear-btn"
                 >
+                    Clear
+                </a>
 
-                <button type="submit" class="search-btn">
-                    🔍 Search
-                </button>
+            {% endif %}
 
-                {% if search %}
-
-                    <a
-                        href="{% url 'admin_managers' %}"
-                        class="clear-btn"
-                    >
-                        Clear
-                    </a>
-
-                {% endif %}
-
-            </form>
-
-        </div>
-
-
-        <!-- Managers Table -->
-
-        <div class="table-container">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-                        <th>#</th>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Approval Status</th>
-                        <th>Joined</th>
-                        <th>Action</th>
-                    </tr>
-
-                </thead>
-
-
-                <tbody>
-
-                    {% for manager in managers %}
-
-                    <tr>
-
-                        <td>
-                            {{ forloop.counter }}
-                        </td>
-
-                        <td>
-                            <strong>
-                                {{ manager.first_name }}
-                            </strong>
-                        </td>
-
-                        <td>
-                            {{ manager.email }}
-                        </td>
-
-                        <td>
-                            {{ manager.phone|default:"—" }}
-                        </td>
-
-                        <td>
-
-                            {% if manager.approval_status == 'pending' %}
-
-                                <span class="status pending-status">
-                                    Pending
-                                </span>
-
-                            {% elif manager.approval_status == 'approved' %}
-
-                                <span class="status approved-status">
-                                    Approved
-                                </span>
-
-                            {% else %}
-
-                                <span class="status rejected-status">
-                                    Rejected
-                                </span>
-
-                            {% endif %}
-
-                        </td>
-
-                        <td>
-                            {{ manager.date_joined|date:"d M Y" }}
-                        </td>
-
-                        <td>
-
-                            {% if manager.approval_status == 'pending' %}
-
-                                <a
-                                    href="{% url 'approve_manager' manager.id %}"
-                                    class="action-btn approve-btn"
-                                >
-                                    ✓ Approve
-                                </a>
-
-                                <a
-                                    href="{% url 'reject_manager' manager.id %}"
-                                    class="action-btn reject-btn"
-                                >
-                                    ✕ Reject
-                                </a>
-
-                            {% elif manager.approval_status == 'approved' %}
-
-                                <span class="status approved-status">
-                                    Active
-                                </span>
-
-                            {% else %}
-
-                                <span class="status rejected-status">
-                                    Rejected
-                                </span>
-
-                            {% endif %}
-
-                        </td>
-
-                    </tr>
-
-                    {% empty %}
-
-                    <tr>
-
-                        <td colspan="7" class="empty">
-                            No parking managers found.
-                        </td>
-
-                    </tr>
-
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
-        </div>
+        </form>
 
     </div>
+
+
+    <!-- MANAGERS TABLE -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>#</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Approval Status</th>
+                    <th>Joined</th>
+                    <th>Action</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for manager in managers %}
+
+                <tr>
+
+                    <td>
+                        {{ forloop.counter }}
+                    </td>
+
+                    <td>
+                        <strong>
+                            {{ manager.first_name }}
+                        </strong>
+                    </td>
+
+                    <td>
+                        {{ manager.email }}
+                    </td>
+
+                    <td>
+                        {{ manager.phone|default:"—" }}
+                    </td>
+
+                    <td>
+
+                        {% if manager.approval_status == 'pending' %}
+
+                            <span class="status pending-status">
+                                Pending
+                            </span>
+
+                        {% elif manager.approval_status == 'approved' %}
+
+                            <span class="status approved-status">
+                                Approved
+                            </span>
+
+                        {% else %}
+
+                            <span class="status rejected-status">
+                                Rejected
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {{ manager.date_joined|date:"d M Y" }}
+                    </td>
+
+                    <td>
+
+                        {% if manager.approval_status == 'pending' %}
+
+                            <a
+                                href="{% url 'approve_manager' manager.id %}"
+                                class="action-btn approve-btn"
+                            >
+                                ✓ Approve
+                            </a>
+
+                            <a
+                                href="{% url 'reject_manager' manager.id %}"
+                                class="action-btn reject-btn"
+                            >
+                                ✕ Reject
+                            </a>
+
+                        {% elif manager.approval_status == 'approved' %}
+
+                            <span class="status approved-status">
+                                Active
+                            </span>
+
+                        {% else %}
+
+                            <span class="status rejected-status">
+                                Rejected
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="7" class="empty">
+                        No parking managers found.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
 
 </body>
 </html>
-

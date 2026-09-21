@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ParkGrid | Parking Locations</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #2474ff;
+            color: white;
+            padding: 25px 18px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            padding-left: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        /* ================= MAIN CONTENT ================= */
+
+        .main {
+            margin-left: 240px;
+            padding: 35px;
+        }
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .top-section h1 {
+            font-size: 28px;
+            color: #1f2937;
+        }
+
+        .top-section p {
+            color: #6b7280;
+            margin-top: 6px;
+        }
+
+        /* ================= SEARCH ================= */
+
+        .search-box {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .search-box form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #2474ff;
+        }
+
+        .search-box button {
+            padding: 12px 22px;
+            background: #2474ff;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .search-box button:hover {
+            background: #1e5eff;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        td {
+            color: #4b5563;
+        }
+
+        .location-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        /* ================= STATUS ================= */
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .active-status {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .inactive-status {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 190px;
+            }
+
+            .main {
+                margin-left: 190px;
+                padding: 20px;
+            }
+
+            .top-section {
+                display: block;
+            }
+
+            .search-box {
+                margin-top: 20px;
+            }
+
+            .search-box form {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<div class="sidebar">
+
+    <div class="logo">
+        ParkGrid
+    </div>
+
+    <a href="{% url 'admin_dashboard' %}">
+        🏠 Dashboard
+    </a>
+
+    <a href="{% url 'admin_users' %}">
+        👤 Users
+    </a>
+
+    <a href="{% url 'admin_managers' %}">
+        👨‍💼 Parking Managers
+    </a>
+
+    <a href="{% url 'admin_parking_locations' %}" class="active">
+        📍 Parking Locations
+    </a>
+
+    <a href="{% url 'admin_bookings' %}">
+        📅 Bookings
+    </a>
+
+    <a href="{% url 'admin_complaints' %}">
+        ⚠️ Complaints
+    </a>
+
+    <a href="{% url 'admin_reports' %}">
+        📊 Reports
+    </a>
+
+    <a href="{% url 'logout' %}">
+        🚪 Logout
+    </a>
+
+</div>
+
+
+<!-- ================= MAIN CONTENT ================= -->
+
+<div class="main">
+
+
+    <!-- HEADER -->
+
+    <div class="top-section">
+
+        <div>
+
+            <h1>
+                Parking Locations
+            </h1>
+
+            <p>
+                View and monitor all registered parking facilities.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+        <form method="GET">
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search by facility, city, manager or email..."
+            >
+
+            <button type="submit">
+                Search
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- PARKING LOCATIONS TABLE -->
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Parking Facility
+                    </th>
+
+                    <th>
+                        Manager
+                    </th>
+
+                    <th>
+                        Address
+                    </th>
+
+                    <th>
+                        City
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Registered
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for location in locations %}
+
+                <tr>
+
+                    <td>
+
+                        <span class="location-name">
+                            {{ location.name }}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        {{ location.manager.first_name|default:location.manager.username }}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ location.address }}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ location.city }}
+
+                    </td>
+
+
+                    <td>
+
+                        {% if location.status %}
+
+                            <span class="status active-status">
+                                Active
+                            </span>
+
+                        {% else %}
+
+                            <span class="status inactive-status">
+                                Inactive
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ location.created_at|date:"d M Y" }}
+
+                    </td>
+
+                </tr>
+
+
+                {% empty %}
+
+                <tr>
+
+                    <td colspan="6" class="empty">
+                        No parking locations registered yet.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+</body>
+</html>

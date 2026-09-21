@@ -188,6 +188,7 @@ def parking_list(request):
 
 
 def admin_managers(request):
+
     managers = User.objects.filter(
         role='manager'
     ).order_by('-date_joined')
@@ -210,6 +211,146 @@ def admin_managers(request):
     return render(
         request,
         'parking/admin_managers.html',
+        context
+    )
+def admin_parking_locations(request):
+    locations = ParkingLocation.objects.select_related(
+        'manager'
+    ).order_by('-created_at')
+
+    search = request.GET.get('search', '').strip()
+
+    if search:
+        locations = locations.filter(
+            Q(name__icontains=search) |
+            Q(city__icontains=search) |
+            Q(address__icontains=search) |
+            Q(manager__first_name__icontains=search) |
+            Q(manager__email__icontains=search)
+        )
+
+    context = {
+        'locations': locations,
+        'search': search,
+    }
+
+    return render(
+        request,
+        'parking/admin_parking_locations.html',
+        context
+    )
+# ---------------------------------------------------------
+# ADMIN BOOKINGS
+# ---------------------------------------------------------
+
+def admin_bookings(request):
+    bookings = Booking.objects.select_related(
+        'user',
+        'location',
+        'slot'
+    ).order_by('-created_at')
+
+    search = request.GET.get('search', '').strip()
+
+    if search:
+        bookings = bookings.filter(
+            Q(vehicle_number__icontains=search) |
+            Q(user__first_name__icontains=search) |
+            Q(user__email__icontains=search) |
+            Q(location__name__icontains=search) |
+            Q(slot__slot_number__icontains=search)
+        )
+
+    context = {
+        'bookings': bookings,
+        'search': search,
+    }
+
+    return render(
+        request,
+        'parking/admin_bookings.html',
+        context
+    )
+# ---------------------------------------------------------
+# ADMIN COMPLAINTS
+# ---------------------------------------------------------
+
+def admin_complaints(request):
+    complaints = Complaint.objects.select_related(
+        'user',
+        'location',
+        'booking'
+    ).order_by('-created_at')
+
+    search = request.GET.get('search', '').strip()
+
+    if search:
+        complaints = complaints.filter(
+            Q(subject__icontains=search) |
+            Q(description__icontains=search) |
+            Q(user__first_name__icontains=search) |
+            Q(user__email__icontains=search) |
+            Q(location__name__icontains=search)
+        )
+
+    context = {
+        'complaints': complaints,
+        'search': search,
+    }
+
+    return render(
+        request,
+        'parking/admin_complaints.html',
+        context
+    )
+# ---------------------------------------------------------
+# ADMIN REPORTS
+# ---------------------------------------------------------
+
+def admin_reports(request):
+
+    total_users = User.objects.filter(role='user').count()
+    total_managers = User.objects.filter(role='manager').count()
+
+    total_locations = ParkingLocation.objects.count()
+    total_slots = ParkingSlot.objects.count()
+
+    total_bookings = Booking.objects.count()
+    completed_bookings = Booking.objects.filter(
+        status='completed'
+    ).count()
+    cancelled_bookings = Booking.objects.filter(
+        status='cancelled'
+    ).count()
+    expired_bookings = Booking.objects.filter(
+        status='expired'
+    ).count()
+
+    total_complaints = Complaint.objects.count()
+    resolved_complaints = Complaint.objects.filter(
+        status='resolved'
+    ).count()
+    pending_complaints = Complaint.objects.filter(
+        status='pending'
+    ).count()
+
+    context = {
+        'total_users': total_users,
+        'total_managers': total_managers,
+        'total_locations': total_locations,
+        'total_slots': total_slots,
+        'total_bookings': total_bookings,
+        'completed_bookings': completed_bookings,
+        'cancelled_bookings': cancelled_bookings,
+        'expired_bookings': expired_bookings,
+        'total_complaints': total_complaints,
+        'resolved_complaints': resolved_complaints,
+        'pending_complaints': pending_complaints,
+    }
+
+    return render(
+        request,
+        'parking/admin_reports.html',
         context
     )
 
@@ -283,7 +424,10 @@ def admin_dashboard(request):
 
 
 def admin_users(request):
-    users = User.objects.filter(role='user').order_by('-date_joined')
+
+    users = User.objects.filter(
+        role='user'
+    ).order_by('-date_joined')
 
     search = request.GET.get('search', '').strip()
 
@@ -305,7 +449,6 @@ def admin_users(request):
         'parking/admin_users.html',
         context
     )
-
 def approve_user(request, user_id):
     user = User.objects.get(
         id=user_id,

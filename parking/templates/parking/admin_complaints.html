@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Complaints | ParkGrid</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #333;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #2474ff;
+            padding: 25px 15px;
+            color: white;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            padding-left: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 13px 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #1e5eff;
+        }
+
+        .main {
+            margin-left: 240px;
+            padding: 30px;
+        }
+
+        .header {
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #222;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-form input:focus {
+            border-color: #2474ff;
+        }
+
+        .search-btn {
+            background: #2474ff;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background: #1e5eff;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th {
+            background: #f8faff;
+            color: #555;
+            font-size: 13px;
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .subject {
+            font-weight: 600;
+            color: #222;
+        }
+
+        .user-name,
+        .location-name {
+            font-weight: 600;
+        }
+
+        .description {
+            max-width: 280px;
+            line-height: 1.5;
+            color: #666;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff4cc;
+            color: #9a7200;
+        }
+
+        .status-in-progress {
+            background: #e1efff;
+            color: #2474ff;
+        }
+
+        .status-resolved {
+            background: #dff7e7;
+            color: #16803c;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            color: #888;
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+                padding: 20px;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <div class="logo">
+            ParkGrid
+        </div>
+
+        <a href="{% url 'admin_dashboard' %}">
+            🏠 Dashboard
+        </a>
+
+        <a href="{% url 'admin_users' %}">
+            👤 Users
+        </a>
+
+        <a href="{% url 'admin_managers' %}">
+            👨‍💼 Parking Managers
+        </a>
+
+        <a href="{% url 'admin_parking_locations' %}">
+            📍 Parking Locations
+        </a>
+
+        <a href="{% url 'admin_bookings' %}">
+            📅 Bookings
+        </a>
+
+        <a href="{% url 'admin_complaints' %}" class="active">
+            ⚠️ Complaints
+        </a>
+
+        <a href="{% url 'admin_reports' %}">
+            📊 Reports
+        </a>
+
+        <a href="{% url 'logout' %}">
+            🚪 Logout
+        </a>
+
+    </div>
+
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+        <div class="header">
+
+            <h1>
+                Complaints
+            </h1>
+
+            <p class="subtitle">
+                Monitor complaints submitted by users
+            </p>
+
+        </div>
+
+
+        <!-- SEARCH -->
+        <div class="search-box">
+
+            <form method="GET" class="search-form">
+
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ search }}"
+                    placeholder="Search by user, subject or parking location..."
+                >
+
+                <button type="submit" class="search-btn">
+                    Search
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- COMPLAINTS TABLE -->
+        <div class="table-container">
+
+            {% if complaints %}
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Parking Location</th>
+                        <th>Subject</th>
+                        <th>Description</th>
+                        <th>Booking</th>
+                        <th>Submitted</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for complaint in complaints %}
+
+                    <tr>
+
+                        <!-- ID -->
+                        <td>
+                            <strong>
+                                #{{ complaint.id }}
+                            </strong>
+                        </td>
+
+
+                        <!-- USER -->
+                        <td>
+
+                            <div class="user-name">
+                                {{ complaint.user.first_name }}
+                            </div>
+
+                            <small>
+                                {{ complaint.user.email }}
+                            </small>
+
+                        </td>
+
+
+                        <!-- PARKING LOCATION -->
+                        <td>
+
+                            <div class="location-name">
+                                {{ complaint.location.name }}
+                            </div>
+
+                            <small>
+                                {{ complaint.location.city }}
+                            </small>
+
+                        </td>
+
+
+                        <!-- SUBJECT -->
+                        <td>
+
+                            <span class="subject">
+                                {{ complaint.subject }}
+                            </span>
+
+                        </td>
+
+
+                        <!-- DESCRIPTION -->
+                        <td>
+
+                            <div class="description">
+                                {{ complaint.description }}
+                            </div>
+
+                        </td>
+
+
+                        <!-- BOOKING -->
+                        <td>
+
+                            {% if complaint.booking %}
+
+                                #{{ complaint.booking.id }}
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- SUBMITTED -->
+                        <td>
+                            {{ complaint.created_at|date:"d M Y, h:i A" }}
+                        </td>
+
+
+                        <!-- STATUS -->
+                        <td>
+
+                            {% if complaint.status == 'pending' %}
+
+                                <span class="status status-pending">
+                                    Pending
+                                </span>
+
+                            {% elif complaint.status == 'in_progress' %}
+
+                                <span class="status status-in-progress">
+                                    In Progress
+                                </span>
+
+                            {% elif complaint.status == 'resolved' %}
+
+                                <span class="status status-resolved">
+                                    Resolved
+                                </span>
+
+                            {% else %}
+
+                                <span class="status">
+                                    {{ complaint.status }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <!-- EMPTY STATE -->
+            <div class="no-data">
+
+                <h3>
+                    No complaints found
+                </h3>
+
+                <p>
+                    There are no complaints matching your search.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+</html>
