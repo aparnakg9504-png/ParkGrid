@@ -2,17 +2,52 @@ from django.contrib import admin
 from django.urls import path
 from parking import views
 
+
 urlpatterns = [
 
-    path('admin/', admin.site.urls),
+    # =====================================================
+    # DJANGO ADMIN
+    # =====================================================
 
+    path(
+        'admin/',
+        admin.site.urls
+    ),
+
+
+    # =====================================================
     # HOME / AUTH
-    path('', views.home, name='home'),
-    path('login/', views.user_login, name='login'),
-    path('logout/', views.user_logout, name='logout'),
-    path('register/', views.register, name='register'),
+    # =====================================================
 
+    path(
+        '',
+        views.home,
+        name='home'
+    ),
+
+    path(
+        'login/',
+        views.user_login,
+        name='login'
+    ),
+
+    path(
+        'logout/',
+        views.user_logout,
+        name='logout'
+    ),
+
+    path(
+        'register/',
+        views.register,
+        name='register'
+    ),
+
+
+    # =====================================================
     # USER
+    # =====================================================
+
     path(
         'user/dashboard/',
         views.user_dashboard,
@@ -26,9 +61,9 @@ urlpatterns = [
     ),
 
     path(
-        'my-bookings/',
-        views.my_bookings,
-        name='my_bookings'
+        'parking-layout/<int:location_id>/',
+        views.parking_layout,
+        name='parking_layout'
     ),
 
     path(
@@ -43,8 +78,12 @@ urlpatterns = [
         name='booking'
     ),
 
+    # =====================================================
+    # BOOKING
+    # =====================================================
+
     path(
-        'booking-confirmation/',
+        'booking-confirmation/<int:booking_id>/',
         views.booking_confirmation,
         name='booking_confirmation'
     ),
@@ -56,7 +95,7 @@ urlpatterns = [
     ),
 
     path(
-        'qr-code/',
+        'qr-code/<int:booking_id>/',
         views.qr_code,
         name='qr_code'
     ),
@@ -67,26 +106,38 @@ urlpatterns = [
         name='booking_history'
     ),
 
-    path(
-        'complaints/',
-        views.complaints,
-        name='complaints'
-    ),
 
-    path(
-        'complaint-status/',
-        views.complaint_status,
-        name='complaint_status'
-    ),
+    # =====================================================
+    # COMPLAINT
+    # =====================================================
+path(
+    'complaints/',
+    views.complaint,
+    name='complaint'
+),
 
+path(
+    'complaint-status/',
+    views.complaint_status,
+    name='complaint_status'
+),
+
+
+    # =====================================================
     # ADMIN DASHBOARD
+    # =====================================================
+
     path(
         'parkgrid-admin/dashboard/',
         views.admin_dashboard,
         name='admin_dashboard'
     ),
 
+
+    # =====================================================
     # ADMIN USERS
+    # =====================================================
+
     path(
         'parkgrid-admin/users/',
         views.admin_users,
@@ -117,7 +168,11 @@ urlpatterns = [
         name='activate_user'
     ),
 
+
+    # =====================================================
     # ADMIN PARKING MANAGERS
+    # =====================================================
+
     path(
         'parkgrid-admin/managers/',
         views.admin_managers,
@@ -136,28 +191,91 @@ urlpatterns = [
         name='reject_manager'
     ),
 
+
+    # =====================================================
+    # MANAGER
+    # =====================================================
+
+    path(
+        'manager/dashboard/',
+        views.manager_dashboard,
+        name='manager_dashboard'
+    ),
+
+    path(
+        'manager/facility/',
+        views.manager_facility,
+        name='manager_facility'
+    ),
+
+    path(
+        'manager/slots/',
+        views.manager_slots,
+        name='manager_slots'
+    ),
+
+    path(
+        'manager/slots/edit/<int:slot_id>/',
+        views.edit_manager_slot,
+        name='edit_manager_slot'
+    ),
+
+    path(
+        'manager/slots/delete/<int:slot_id>/',
+        views.delete_manager_slot,
+        name='delete_manager_slot'
+    ),
+
+    path(
+        'manager/bookings/',
+        views.manager_bookings,
+        name='manager_bookings'
+    ),
+
+    path(
+        'manager/complaints/',
+        views.manager_complaints,
+        name='manager_complaints'
+    ),
+
+
+    # =====================================================
     # ADMIN PARKING LOCATIONS
+    # =====================================================
+
     path(
         'parkgrid-admin/parking-locations/',
         views.admin_parking_locations,
         name='admin_parking_locations'
     ),
 
+
+    # =====================================================
     # ADMIN BOOKINGS
+    # =====================================================
+
     path(
         'parkgrid-admin/bookings/',
         views.admin_bookings,
         name='admin_bookings'
     ),
 
+
+    # =====================================================
     # ADMIN COMPLAINTS
+    # =====================================================
+
     path(
         'parkgrid-admin/complaints/',
         views.admin_complaints,
         name='admin_complaints'
     ),
 
+
+    # =====================================================
     # ADMIN REPORTS
+    # =====================================================
+
     path(
         'parkgrid-admin/reports/',
         views.admin_reports,

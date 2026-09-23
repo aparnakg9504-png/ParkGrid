@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -20,55 +21,114 @@
             color: #243b53;
         }
 
-        /* SIDEBAR */
+
+        /* =========================
+           SIDEBAR
+        ========================= */
 
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
-            width: 240px;
+            width: 245px;
             height: 100vh;
             background: #102a43;
             color: white;
-            padding: 25px 15px;
+            padding: 28px 18px;
         }
 
-        .logo {
-            font-size: 25px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 35px;
+        .brand {
+            padding: 0 14px 35px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .brand h1 {
+            font-size: 27px;
+            letter-spacing: 0.5px;
+        }
+
+        .brand span {
             color: #2ec4b6;
         }
 
-        .sidebar a {
-            display: block;
+        .brand p {
+            margin-top: 6px;
+            color: #9fb3c8;
+            font-size: 12px;
+        }
+
+        .menu {
+            margin-top: 30px;
+        }
+
+        .menu-title {
+            padding: 0 14px;
+            margin-bottom: 12px;
+            color: #829ab1;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 14px;
+            margin-bottom: 6px;
+            border-radius: 8px;
             color: #d9e2ec;
             text-decoration: none;
-            padding: 13px 15px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            font-size: 15px;
+            font-size: 14px;
+            transition: 0.2s;
         }
 
-        .sidebar a:hover {
+        .menu a:hover {
+            background: #1c405f;
+            color: white;
+        }
+
+        .menu a.active {
             background: #167d8d;
             color: white;
         }
 
-        .sidebar a.active {
-            background: #167d8d;
-            color: white;
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 16px;
         }
 
-        /* MAIN */
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+        }
+
+        .logout {
+            border-top: 1px solid rgba(255,255,255,0.12);
+            padding-top: 18px;
+        }
+
+        .logout a {
+            color: #ffb4b4 !important;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
 
         .main {
-            margin-left: 240px;
+            margin-left: 245px;
             min-height: 100vh;
         }
 
-        /* TOPBAR */
+
+        /* =========================
+           TOPBAR
+        ========================= */
 
         .topbar {
             height: 70px;
@@ -90,10 +150,14 @@
             font-size: 14px;
         }
 
-        /* CONTENT */
+
+        /* =========================
+           CONTENT
+        ========================= */
 
         .content {
             padding: 35px;
+            max-width: 1200px;
         }
 
         .page-heading {
@@ -111,7 +175,10 @@
             font-size: 15px;
         }
 
-        /* COMPLAINT CARD */
+
+        /* =========================
+           COMPLAINT CARD
+        ========================= */
 
         .complaint-card {
             background: white;
@@ -134,6 +201,11 @@
             font-size: 19px;
         }
 
+
+        /* =========================
+           STATUS
+        ========================= */
+
         .status {
             padding: 6px 13px;
             border-radius: 20px;
@@ -146,10 +218,20 @@
             color: #9a6700;
         }
 
+        .in_progress {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
         .resolved {
             background: #e6f7f1;
             color: #16805c;
         }
+
+
+        /* =========================
+           COMPLAINT INFO
+        ========================= */
 
         .complaint-info {
             display: grid;
@@ -175,6 +257,11 @@
             font-size: 14px;
         }
 
+
+        /* =========================
+           RESPONSE
+        ========================= */
+
         .response {
             margin-top: 15px;
             padding: 15px;
@@ -196,11 +283,44 @@
             line-height: 1.5;
         }
 
-        /* BUTTON */
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-card {
+            background: white;
+            border-radius: 14px;
+            padding: 50px 25px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(16, 42, 67, 0.08);
+            border: 1px solid #e6edf2;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+        .empty-card h3 {
+            color: #102a43;
+            font-size: 19px;
+            margin-bottom: 8px;
+        }
+
+        .empty-card p {
+            color: #627d98;
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           BUTTON
+        ========================= */
 
         .back-button {
             display: inline-block;
-            margin-top: 5px;
+            margin-top: 10px;
             padding: 12px 22px;
             background: #167d8d;
             color: white;
@@ -214,7 +334,10 @@
             background: #126875;
         }
 
-        /* MOBILE */
+
+        /* =========================
+           MOBILE
+        ========================= */
 
         @media (max-width: 768px) {
 
@@ -236,6 +359,7 @@
 
         }
 
+
         @media (max-width: 600px) {
 
             .sidebar {
@@ -255,72 +379,133 @@
             .complaint-header {
                 align-items: flex-start;
                 gap: 10px;
+                flex-direction: column;
             }
 
         }
 
     </style>
+
 </head>
 
 <body>
 
-    <!-- SIDEBAR -->
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
 
     <div class="sidebar">
 
-        <div class="logo">
-            ParkGrid
+        <div class="brand">
+
+            <h1>
+                Park<span>Grid</span>
+            </h1>
+
+            <p>
+                Smart Parking Management
+            </p>
+
         </div>
 
-        <a href="/user/dashboard/">
-            🏠 Dashboard
-        </a>
 
-        <a href="/parking-list/">
-            🅿️ Find Parking
-        </a>
+        <div class="menu">
 
-        <a href="/my-bookings/">
-            📋 My Bookings
-        </a>
+            <div class="menu-title">
+                Main Menu
+            </div>
 
-        <a href="/booking-history/">
-            🕘 Booking History
-        </a>
 
-        <a href="/complaints/">
-            ⚠️ Complaints
-        </a>
+            <a href="{% url 'user_dashboard' %}">
+                <span class="menu-icon">⌂</span>
+                Dashboard
+            </a>
 
-        <a href="/complaint-status/" class="active">
-            📌 Complaint Status
-        </a>
 
-        <a href="/logout/">
-            🚪 Logout
-        </a>
+            <a href="{% url 'parking_list' %}">
+                <span class="menu-icon">⌖</span>
+                Find Parking
+            </a>
+
+
+            <a href="{% url 'booking_history' %}">
+                <span class="menu-icon">◷</span>
+                Booking History
+            </a>
+
+
+            <div class="menu-title" style="margin-top:25px;">
+                Support
+            </div>
+
+
+            <a href="{% url 'complaint' %}">
+                <span class="menu-icon">✉</span>
+                Complaints
+            </a>
+
+
+            <!-- ACTIVE PAGE -->
+
+            <a href="{% url 'complaint_status' %}" class="active">
+                <span class="menu-icon">✓</span>
+                Complaint Status
+            </a>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="logout">
+
+                <a href="{% url 'logout' %}">
+                    <span class="menu-icon">↪</span>
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
 
     </div>
 
 
-    <!-- MAIN -->
+    <!-- =========================
+         MAIN
+    ========================= -->
 
     <div class="main">
 
+
+        <!-- TOPBAR -->
+
         <div class="topbar">
 
-            <h2>Complaint Status</h2>
+            <h2>
+                Complaint Status
+            </h2>
 
-            <span>ParkGrid Customer Portal</span>
+            <span>
+                ParkGrid Customer Portal
+            </span>
 
         </div>
 
 
+        <!-- CONTENT -->
+
         <div class="content">
+
+
+            <!-- PAGE HEADING -->
 
             <div class="page-heading">
 
-                <h1>Complaint Status</h1>
+                <h1>
+                    Complaint Status
+                </h1>
 
                 <p>
                     Track the status and response of your submitted complaints.
@@ -329,113 +514,159 @@
             </div>
 
 
-            <!-- COMPLAINT 1 -->
+            <!-- =========================
+                 DYNAMIC COMPLAINTS
+            ========================= -->
 
-            <div class="complaint-card">
+            {% if complaints %}
 
-                <div class="complaint-header">
+                {% for complaint in complaints %}
 
-                    <h3>Complaint #1</h3>
-
-                    <span class="status pending">
-                        Pending
-                    </span>
-
-                </div>
+                    <div class="complaint-card">
 
 
-                <div class="complaint-info">
+                        <!-- HEADER -->
 
-                    <div class="info-item">
+                        <div class="complaint-header">
 
-                        <span>Subject</span>
+                            <h3>
+                                Complaint #{{ complaint.id }}
+                            </h3>
 
-                        <strong>Parking Slot Issue</strong>
+                            <span class="status {{ complaint.status }}">
+                                {{ complaint.get_status_display }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- INFORMATION -->
+
+                        <div class="complaint-info">
+
+                            <div class="info-item">
+
+                                <span>
+                                    Subject
+                                </span>
+
+                                <strong>
+                                    {{ complaint.subject }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span>
+                                    Location
+                                </span>
+
+                                <strong>
+                                    {{ complaint.location.name }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span>
+                                    Submitted On
+                                </span>
+
+                                <strong>
+                                    {{ complaint.created_at|date:"d F Y, h:i A" }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span>
+                                    Status
+                                </span>
+
+                                <strong>
+                                    {{ complaint.get_status_display }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- RESPONSE -->
+
+                        {% if complaint.response %}
+
+                            <div class="response">
+
+                                <div class="response-title">
+                                    Response
+                                </div>
+
+                                <p>
+                                    {{ complaint.response }}
+                                </p>
+
+                            </div>
+
+                        {% else %}
+
+                            <div class="response">
+
+                                <div class="response-title">
+                                    Current Response
+                                </div>
+
+                                <p>
+                                    Your complaint has been received and is currently being reviewed by the parking team.
+                                </p>
+
+                            </div>
+
+                        {% endif %}
 
                     </div>
 
+                {% endfor %}
 
-                    <div class="info-item">
 
-                        <span>Location</span>
+            {% else %}
 
-                        <strong>City Mall Parking</strong>
+                <!-- NO COMPLAINTS -->
 
+                <div class="empty-card">
+
+                    <div class="empty-icon">
+                        📭
                     </div>
 
-                </div>
-
-
-                <div class="response">
-
-                    <div class="response-title">
-                        Current Response
-                    </div>
+                    <h3>
+                        No Complaints Yet
+                    </h3>
 
                     <p>
-                        Your complaint has been received and is currently being reviewed by the parking team.
+                        You haven't submitted any complaints yet.
                     </p>
 
                 </div>
 
-            </div>
+            {% endif %}
 
 
-            <!-- COMPLAINT 2 -->
+            <!-- BACK BUTTON -->
 
-            <div class="complaint-card">
-
-                <div class="complaint-header">
-
-                    <h3>Complaint #2</h3>
-
-                    <span class="status resolved">
-                        Resolved
-                    </span>
-
-                </div>
-
-
-                <div class="complaint-info">
-
-                    <div class="info-item">
-
-                        <span>Subject</span>
-
-                        <strong>Payment Issue</strong>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                        <span>Location</span>
-
-                        <strong>City Hospital Parking</strong>
-
-                    </div>
-
-                </div>
-
-
-                <div class="response">
-
-                    <div class="response-title">
-                        Response
-                    </div>
-
-                    <p>
-                        The payment issue has been reviewed and resolved successfully.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <a href="/user/dashboard/" class="back-button">
+            <a
+                href="{% url 'user_dashboard' %}"
+                class="back-button"
+            >
                 ← Back to Dashboard
             </a>
+
 
         </div>
 

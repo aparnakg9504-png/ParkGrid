@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Parking Facility - ParkGrid</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: #1e5eff;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #1e5eff;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .facility-icon {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #1e5eff;
+            margin-bottom: 25px;
+        }
+
+        .info {
+            margin-bottom: 20px;
+        }
+
+        .label {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .value {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .status {
+            display: inline-block;
+            background: #e7f8ed;
+            color: #16833a;
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #1e5eff;
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #174dcc;
+        }
+
+        .message {
+            background: #e7f8ed;
+            color: #16833a;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>My Parking Facility</h1>
+
+        <a href="{% url 'manager_dashboard' %}" class="back-btn">
+            ← Dashboard
+        </a>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    {% if location %}
+
+        <!-- FACILITY DETAILS -->
+
+        <div class="card">
+
+            <div class="facility-icon">🅿️</div>
+
+            <h2>{{ location.name }}</h2>
+
+            <div class="info">
+                <div class="label">Address</div>
+                <div class="value">{{ location.address }}</div>
+            </div>
+
+            <div class="info">
+                <div class="label">City</div>
+                <div class="value">{{ location.city }}</div>
+            </div>
+
+            <div class="info">
+                <div class="label">Facility Status</div>
+
+                {% if location.status %}
+                    <span class="status">● Active</span>
+                {% else %}
+                    <span style="color:red;">● Inactive</span>
+                {% endif %}
+            </div>
+
+            <div class="info">
+                <div class="label">Registered On</div>
+                <div class="value">
+                    {{ location.created_at|date:"d M Y" }}
+                </div>
+            </div>
+
+        </div>
+
+
+    {% else %}
+
+        <!-- ADD FACILITY FORM -->
+
+        <div class="card">
+
+            <div class="facility-icon">📍</div>
+
+            <h2>Add Parking Facility</h2>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <label>Facility Name</label>
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Enter parking facility name"
+                    required
+                >
+
+                <label>Address</label>
+                <textarea
+                    name="address"
+                    placeholder="Enter complete address"
+                    required
+                ></textarea>
+
+                <label>City</label>
+                <input
+                    type="text"
+                    name="city"
+                    placeholder="Enter city"
+                    required
+                >
+
+                <button type="submit" class="submit-btn">
+                    Add Parking Facility
+                </button>
+
+            </form>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

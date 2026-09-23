@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Complaints - ParkGrid</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #1e5eff;
+            margin: 0;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #1e5eff;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .message {
+            background: #e7f8ed;
+            color: #16833a;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        th {
+            background: #f0f4ff;
+            color: #1e5eff;
+            padding: 14px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background: #fafbff;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fff4d6;
+            color: #a66a00;
+        }
+
+        .in_progress {
+            background: #e8eefc;
+            color: #3456a3;
+        }
+
+        .resolved {
+            background: #e7f8ed;
+            color: #16833a;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+            padding: 40px;
+        }
+
+        .description {
+            max-width: 250px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>⚠️ Complaints</h1>
+
+        <a href="{% url 'manager_dashboard' %}" class="back-btn">
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    <div class="card">
+
+        <h2>{{ location.name }}</h2>
+
+        {% if complaints %}
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User</th>
+                            <th>Subject</th>
+                            <th>Description</th>
+                            <th>Booking</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Response</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for complaint in complaints %}
+
+                            <tr>
+
+                                <td>
+                                    #{{ complaint.id }}
+                                </td>
+
+                                <td>
+                                    {{ complaint.user.get_full_name|default:complaint.user.username }}
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        {{ complaint.subject }}
+                                    </strong>
+                                </td>
+
+                                <td class="description">
+                                    {{ complaint.description }}
+                                </td>
+
+                                <td>
+                                    {% if complaint.booking %}
+                                        #{{ complaint.booking.id }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {{ complaint.created_at|date:"d M Y" }}
+                                </td>
+
+                                <td>
+
+                                    <span class="status {{ complaint.status }}">
+                                        {{ complaint.get_status_display }}
+                                    </span>
+
+                                </td>
+
+                                <td>
+                                    {% if complaint.response %}
+                                        {{ complaint.response }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% else %}
+
+            <div class="empty">
+
+                <div style="font-size:50px;">
+                    ⚠️
+                </div>
+
+                <h2>No Complaints</h2>
+
+                <p>
+                    Complaints related to your parking facility
+                    will appear here.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

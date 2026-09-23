@@ -375,10 +375,7 @@
                 Find Parking
             </a>
 
-            <a href="/my-bookings/">
-                <span class="menu-icon">▣</span>
-                My Bookings
-            </a>
+           
 
             <a href="/booking-history/">
                 <span class="menu-icon">◷</span>
@@ -462,78 +459,50 @@
             </div>
 
 
-            <!-- Parking Facilities -->
-            <section class="parking-grid">
+         <!-- Parking Facilities -->
+<section class="parking-grid">
 
-                <div class="parking-card">
+    {% for location in locations %}
 
-                    <div class="parking-icon">
-                        🅿
-                    </div>
+    <div class="parking-card">
 
-                    <h3>City Mall Parking</h3>
+        <div class="parking-icon">
+            🅿
+        </div>
 
-                    <div class="location">
-                        📍 Kochi
-                    </div>
+        <h3>{{ location.name }}</h3>
 
-                    <span class="status">
-                        ● Available
-                    </span>
+        <div class="location">
+            📍 {{ location.city }}
+        </div>
 
-                    <a href="/parking-slots/" class="view-btn">
-                        View Parking Slots →
-                    </a>
+        <span class="status">
+            ● Available
+        </span>
 
-                </div>
+        <a href="{% url 'parking_layout' location.id %}" class="view-btn">
+            View Parking Slots →
+        </a>
 
+    </div>
 
-                <div class="parking-card">
+    {% empty %}
 
-                    <div class="parking-icon">
-                        🏥
-                    </div>
+    <div class="parking-card">
+        <div class="parking-icon">
+            🅿
+        </div>
 
-                    <h3>City Hospital Parking</h3>
+        <h3>No Parking Facilities</h3>
 
-                    <div class="location">
-                        📍 Kochi
-                    </div>
+        <div class="location">
+            No parking locations are currently available.
+        </div>
+    </div>
 
-                    <span class="status">
-                        ● Available
-                    </span>
+    {% endfor %}
 
-                    <a href="/parking-slots/" class="view-btn">
-                        View Parking Slots →
-                    </a>
-
-                </div>
-
-
-                <div class="parking-card">
-
-                    <div class="parking-icon">
-                        🛒
-                    </div>
-
-                    <h3>Supermarket Parking</h3>
-
-                    <div class="location">
-                        📍 Kochi
-                    </div>
-
-                    <span class="status">
-                        ● Available
-                    </span>
-
-                    <a href="/parking-slots/" class="view-btn">
-                        View Parking Slots →
-                    </a>
-
-                </div>
-
-            </section>
+</section>
 
 
             <div class="back">

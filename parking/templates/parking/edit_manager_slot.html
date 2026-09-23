@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Slot - ParkGrid</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #1e5eff;
+            margin: 0;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #1e5eff;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #1e5eff;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group {
+            margin-bottom: 25px;
+        }
+
+        .checkbox-group label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            margin: 0;
+        }
+
+        .update-btn {
+            width: 100%;
+            background: #1e5eff;
+            color: white;
+            border: none;
+            padding: 13px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .update-btn:hover {
+            background: #174dcc;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>Edit Parking Slot</h1>
+
+        <a href="{% url 'manager_slots' %}" class="back-btn">
+            ← Back to Slots
+        </a>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>✏️ Update Slot {{ slot.slot_number }}</h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <label>Slot Number</label>
+
+            <input
+                type="text"
+                name="slot_number"
+                value="{{ slot.slot_number }}"
+                required
+            >
+
+
+            <label>Vehicle Type</label>
+
+            <select name="vehicle_type" required>
+
+                <option
+                    value="two_wheeler"
+                    {% if slot.vehicle_type == 'two_wheeler' %}
+                        selected
+                    {% endif %}
+                >
+                    Two Wheeler
+                </option>
+
+                <option
+                    value="four_wheeler"
+                    {% if slot.vehicle_type == 'four_wheeler' %}
+                        selected
+                    {% endif %}
+                >
+                    Four Wheeler
+                </option>
+
+            </select>
+
+
+            <label>Status</label>
+
+            <select name="status" required>
+
+                <option
+                    value="available"
+                    {% if slot.status == 'available' %}
+                        selected
+                    {% endif %}
+                >
+                    Available
+                </option>
+
+                <option
+                    value="occupied"
+                    {% if slot.status == 'occupied' %}
+                        selected
+                    {% endif %}
+                >
+                    Occupied
+                </option>
+
+                <option
+                    value="maintenance"
+                    {% if slot.status == 'maintenance' %}
+                        selected
+                    {% endif %}
+                >
+                    Maintenance
+                </option>
+
+            </select>
+
+
+            <div class="checkbox-group">
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="is_ev"
+                        {% if slot.is_ev %}
+                            checked
+                        {% endif %}
+                    >
+                    EV Slot
+                </label>
+
+
+                <label>
+                    <input
+                        type="checkbox"
+                        name="charging_available"
+                        {% if slot.charging_available %}
+                            checked
+                        {% endif %}
+                    >
+                    Charging Available
+                </label>
+
+            </div>
+
+
+            <button type="submit" class="update-btn">
+                Update Slot
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

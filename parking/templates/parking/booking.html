@@ -382,11 +382,7 @@
                 Find Parking
             </a>
 
-            <a href="/my-bookings/">
-                <span class="menu-icon">▣</span>
-                My Bookings
-            </a>
-
+           
             <a href="/booking-history/">
                 <span class="menu-icon">◷</span>
                 Booking History
@@ -484,110 +480,31 @@
 
                     <h3>Reservation Details</h3>
 
-                    <form method="POST">
+                    <form method="post">
+    {% csrf_token %}
 
-                        {% csrf_token %}
+    <input type="hidden" name="slot_id" value="{{ slot.id }}">
+    <input type="hidden" name="date" value="{{ selected_date }}">
+    <input type="hidden" name="time" value="{{ selected_time }}">
+    <input type="hidden" name="duration" value="{{ duration }}">
 
-                        <div class="form-group">
+    <select name="vehicle_type" required>
+        <option value="">Select Vehicle Type</option>
+        <option value="two_wheeler">Two Wheeler</option>
+        <option value="four_wheeler">Four Wheeler</option>
+    </select>
 
-                            <label for="vehicle_type">
-                                Vehicle Type
-                            </label>
+    <input
+        type="text"
+        name="vehicle_number"
+        placeholder="Vehicle Number"
+        required
+    >
 
-                            <select id="vehicle_type" name="vehicle_type" required>
-
-                                <option value="">
-                                    Select vehicle type
-                                </option>
-
-                                <option value="two_wheeler">
-                                    Two Wheeler
-                                </option>
-
-                                <option value="four_wheeler">
-                                    Four Wheeler
-                                </option>
-
-                            </select>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="vehicle_number">
-                                Vehicle Number
-                            </label>
-
-                            <input
-                                type="text"
-                                id="vehicle_number"
-                                name="vehicle_number"
-                                placeholder="Example: KL-00-XX-0000"
-                                required
-                            >
-
-                        </div>
-
-
-                        <div class="form-row">
-
-                            <div class="form-group">
-
-                                <label for="booking_date">
-                                    Booking Date
-                                </label>
-
-                                <input
-                                    type="date"
-                                    id="booking_date"
-                                    name="booking_date"
-                                    required
-                                >
-
-                            </div>
-
-
-                            <div class="form-group">
-
-                                <label for="expected_arrival">
-                                    Expected Arrival
-                                </label>
-
-                                <input
-                                    type="time"
-                                    id="expected_arrival"
-                                    name="expected_arrival"
-                                    required
-                                >
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="reservation_expiry">
-                                Reservation Expiry
-                            </label>
-
-                            <input
-                                type="time"
-                                id="reservation_expiry"
-                                name="reservation_expiry"
-                                required
-                            >
-
-                        </div>
-
-
-                        <button type="submit" class="confirm-btn">
-                            Confirm Booking →
-                        </button>
-
-                    </form>
-
+    <button type="submit">
+        Confirm Booking
+    </button>
+</form>
 
                     <div class="notice">
                         Please check your vehicle details and selected time before confirming your booking.

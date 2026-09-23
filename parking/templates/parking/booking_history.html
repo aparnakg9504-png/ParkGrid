@@ -1,218 +1,472 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ParkGrid - Booking History</title>
+
+    <title>Booking History | ParkGrid</title>
 
     <style>
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fa;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7f9;
             color: #243b53;
         }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
 
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
-            width: 240px;
+            width: 245px;
             height: 100vh;
             background: #102a43;
             color: white;
-            padding: 25px 15px;
+            padding: 28px 18px;
         }
 
-        .logo {
-            font-size: 25px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 35px;
+        .brand {
+            padding: 0 14px 35px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .brand h1 {
+            font-size: 27px;
+            letter-spacing: 0.5px;
+        }
+
+        .brand span {
             color: #2ec4b6;
         }
 
-        .sidebar a {
-            display: block;
+        .brand p {
+            margin-top: 6px;
+            color: #9fb3c8;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           MENU
+        ========================= */
+
+        .menu {
+            margin-top: 30px;
+        }
+
+        .menu-title {
+            padding: 0 14px;
+            margin-bottom: 12px;
+            color: #829ab1;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 14px;
+            margin-bottom: 6px;
+            border-radius: 8px;
             color: #d9e2ec;
             text-decoration: none;
-            padding: 13px 15px;
-            margin-bottom: 8px;
-            border-radius: 8px;
-            font-size: 15px;
+            font-size: 14px;
+            transition: 0.2s;
         }
 
-        .sidebar a:hover {
+        .menu a:hover {
+            background: #1c405f;
+            color: white;
+        }
+
+        .menu a.active {
             background: #167d8d;
             color: white;
         }
 
-        .sidebar a.active {
-            background: #167d8d;
-            color: white;
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 16px;
         }
+
+
+        /* =========================
+           LOGOUT
+        ========================= */
+
+        .sidebar-bottom {
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+        }
+
+        .logout {
+            border-top: 1px solid rgba(255,255,255,0.12);
+            padding-top: 18px;
+        }
+
+        .logout a {
+            color: #ffb4b4 !important;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
 
         .main {
-            margin-left: 240px;
+            margin-left: 245px;
             min-height: 100vh;
         }
 
+
+        /* =========================
+           TOPBAR
+        ========================= */
+
         .topbar {
-            height: 70px;
+            height: 76px;
             background: white;
+            border-bottom: 1px solid #e1e8ed;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 35px;
-            border-bottom: 1px solid #e1e8ed;
+            padding: 0 40px;
         }
 
-        .topbar h2 {
-            font-size: 22px;
+        .page-title h2 {
+            font-size: 20px;
+            font-weight: 600;
             color: #102a43;
         }
 
-        .topbar span {
-            color: #627d98;
-            font-size: 14px;
+        .page-title p {
+            color: #7b8794;
+            font-size: 12px;
+            margin-top: 4px;
         }
 
+        .customer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .customer-info {
+            text-align: right;
+        }
+
+        .customer-info strong {
+            display: block;
+            font-size: 14px;
+            color: #243b53;
+        }
+
+        .customer-info span {
+            color: #7b8794;
+            font-size: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #d8f3ef;
+            color: #087f8c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+
+        /* =========================
+           CONTENT
+        ========================= */
+
         .content {
-            padding: 35px;
+            padding: 35px 40px;
+            max-width: 1400px;
         }
 
         .page-heading {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .page-heading h1 {
-            font-size: 30px;
+            font-size: 28px;
+            font-weight: 600;
             color: #102a43;
             margin-bottom: 8px;
         }
 
         .page-heading p {
-            color: #627d98;
-            font-size: 15px;
+            color: #7b8794;
+            font-size: 14px;
         }
+
+
+        /* =========================
+           BOOKING CARD
+        ========================= */
 
         .history-card {
             background: white;
-            border-radius: 14px;
+            border: 1px solid #e1e8ed;
+            border-radius: 12px;
             padding: 25px;
-            margin-bottom: 18px;
-            box-shadow: 0 5px 20px rgba(16, 42, 67, 0.08);
-            border: 1px solid #e6edf2;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(16,42,67,0.07);
+            transition: 0.2s;
         }
+
+        .history-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16,42,67,0.09);
+        }
+
+
+        /* =========================
+           BOOKING HEADER
+        ========================= */
 
         .booking-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            padding-bottom: 17px;
+            border-bottom: 1px solid #edf1f4;
         }
 
         .booking-header h3 {
+            font-size: 18px;
             color: #102a43;
-            font-size: 19px;
+            font-weight: 600;
         }
+
+
+        /* =========================
+           STATUS
+        ========================= */
 
         .status {
             padding: 6px 12px;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .reserved {
+            background: #e8f4ff;
+            color: #2563eb;
+        }
+
+        .active {
+            background: #e8f8f1;
+            color: #16805c;
         }
 
         .completed {
             background: #e6f7f1;
-            color: #16805c;
+            color: #087f8c;
         }
 
         .cancelled {
-            background: #fdecec;
+            background: #ffecec;
             color: #c0392b;
         }
+
+        .expired {
+            background: #fff4e5;
+            color: #b45309;
+        }
+
+
+        /* =========================
+           BOOKING INFORMATION
+        ========================= */
 
         .booking-info {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            gap: 18px;
         }
 
         .info-item {
             background: #f7f9fb;
             padding: 15px;
-            border-radius: 9px;
+            border-radius: 8px;
         }
 
         .info-item span {
             display: block;
             color: #829ab1;
-            font-size: 12px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
             margin-bottom: 6px;
         }
 
         .info-item strong {
             color: #243b53;
             font-size: 14px;
+            font-weight: 600;
         }
 
-        .back-button {
+
+        /* =========================
+           ACTION
+        ========================= */
+
+        .booking-actions {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid #edf1f4;
+        }
+
+        .action-button {
             display: inline-block;
-            margin-top: 10px;
-            padding: 12px 22px;
+            padding: 10px 18px;
+            background: #167d8d;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .action-button:hover {
+            background: #126875;
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-card {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 12px;
+            padding: 55px 25px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(16,42,67,0.07);
+        }
+
+        .empty-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #edf7f6;
+            color: #087f8c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+        }
+
+        .empty-card h3 {
+            color: #102a43;
+            margin-bottom: 8px;
+            font-size: 19px;
+        }
+
+        .empty-card p {
+            color: #7b8794;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .find-button {
+            display: inline-block;
+            padding: 11px 22px;
             background: #167d8d;
             color: white;
             text-decoration: none;
             border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 13px;
+            font-weight: 600;
         }
 
-        .back-button:hover {
+        .find-button:hover {
             background: #126875;
         }
 
-        @media (max-width: 900px) {
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            padding: 30px 40px;
+            color: #829ab1;
+            font-size: 11px;
+            text-align: center;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1050px) {
+
             .booking-info {
                 grid-template-columns: repeat(2, 1fr);
             }
+
         }
 
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 200px;
-            }
 
-            .main {
-                margin-left: 200px;
-            }
+        @media (max-width: 750px) {
 
-            .content {
-                padding: 20px;
-            }
-
-            .topbar {
-                padding: 0 20px;
-            }
-        }
-
-        @media (max-width: 600px) {
             .sidebar {
                 position: relative;
                 width: 100%;
                 height: auto;
             }
 
+            .sidebar-bottom {
+                position: static;
+                margin-top: 20px;
+            }
+
             .main {
                 margin-left: 0;
             }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .content {
+                padding: 25px 20px;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
 
             .booking-info {
                 grid-template-columns: 1fr;
@@ -221,149 +475,324 @@
             .booking-header {
                 align-items: flex-start;
                 gap: 10px;
+                flex-direction: column;
             }
+
+            .customer-info {
+                display: none;
+            }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <div class="sidebar">
 
-        <div class="logo">
-            ParkGrid
-        </div>
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
 
-        <a href="/user/dashboard/">🏠 Dashboard</a>
-
-        <a href="/parking-list/">🅿️ Find Parking</a>
-
-        <a href="/my-bookings/">📋 My Bookings</a>
-
-        <a href="/booking-history/" class="active">🕘 Booking History</a>
-
-        <a href="/complaints/">⚠️ Complaints</a>
-
-        <a href="/complaint-status/">📌 Complaint Status</a>
-
-        <a href="/logout/">🚪 Logout</a>
-
-    </div>
+    <aside class="sidebar">
 
 
-    <div class="main">
+        <div class="brand">
 
-        <div class="topbar">
+            <h1>
+                Park<span>Grid</span>
+            </h1>
 
-            <h2>Booking History</h2>
-
-            <span>ParkGrid Customer Portal</span>
+            <p>
+                Smart Parking Management
+            </p>
 
         </div>
 
 
-        <div class="content">
+        <div class="menu">
 
-            <div class="page-heading">
-
-                <h1>Booking History</h1>
-
-                <p>View your previous parking reservations and their status.</p>
-
+            <div class="menu-title">
+                Main Menu
             </div>
 
 
-            <!-- Booking 1 -->
-
-            <div class="history-card">
-
-                <div class="booking-header">
-
-                    <h3>Booking #1001</h3>
-
-                    <span class="status completed">
-                        Completed
-                    </span>
-
-                </div>
+            <a href="{% url 'user_dashboard' %}">
+                <span class="menu-icon">⌂</span>
+                Dashboard
+            </a>
 
 
-                <div class="booking-info">
+            <a href="{% url 'parking_list' %}">
+                <span class="menu-icon">⌖</span>
+                Find Parking
+            </a>
 
-                    <div class="info-item">
-                        <span>Parking Location</span>
-                        <strong>City Mall Parking</strong>
-                    </div>
 
-                    <div class="info-item">
-                        <span>Slot</span>
-                        <strong>A1</strong>
-                    </div>
+            <!-- ACTIVE PAGE -->
 
-                    <div class="info-item">
-                        <span>Vehicle Number</span>
-                        <strong>KL-00-XX-0000</strong>
-                    </div>
+            <a href="{% url 'booking_history' %}" class="active">
+                <span class="menu-icon">◷</span>
+                Booking History
+            </a>
 
-                    <div class="info-item">
-                        <span>Booking Date</span>
-                        <strong>20 September 2026</strong>
-                    </div>
 
-                </div>
-
+            <div class="menu-title" style="margin-top:25px;">
+                Support
             </div>
 
 
-            <!-- Booking 2 -->
-
-            <div class="history-card">
-
-                <div class="booking-header">
-
-                    <h3>Booking #1002</h3>
-
-                    <span class="status cancelled">
-                        Cancelled
-                    </span>
-
-                </div>
+            <a href="{% url 'complaint' %}">
+                <span class="menu-icon">✉</span>
+                Complaints
+            </a>
 
 
-                <div class="booking-info">
-
-                    <div class="info-item">
-                        <span>Parking Location</span>
-                        <strong>City Hospital Parking</strong>
-                    </div>
-
-                    <div class="info-item">
-                        <span>Slot</span>
-                        <strong>B2</strong>
-                    </div>
-
-                    <div class="info-item">
-                        <span>Vehicle Number</span>
-                        <strong>KL-00-YY-0000</strong>
-                    </div>
-
-                    <div class="info-item">
-                        <span>Booking Date</span>
-                        <strong>18 September 2026</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <a href="/user/dashboard/" class="back-button">
-                ← Back to Dashboard
+            <a href="{% url 'complaint_status' %}">
+                <span class="menu-icon">✓</span>
+                Complaint Status
             </a>
 
         </div>
 
+
+        <div class="sidebar-bottom">
+
+            <div class="logout">
+
+                <a href="{% url 'logout' %}">
+                    <span class="menu-icon">↪</span>
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <div class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="page-title">
+
+                <h2>
+                    Booking History
+                </h2>
+
+                <p>
+                    View your previous parking reservations
+                </p>
+
+            </div>
+
+
+            <div class="customer">
+
+                <div class="customer-info">
+
+                    <strong>
+                        Customer
+                    </strong>
+
+                    <span>
+                        ParkGrid User
+                    </span>
+
+                </div>
+
+
+                <div class="avatar">
+                    👤
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <main class="content">
+
+
+            <div class="page-heading">
+
+                <h1>
+                    🕘 Booking History
+                </h1>
+
+                <p>
+                    View your previous parking reservations and their status.
+                </p>
+
+            </div>
+
+
+            <!-- =========================
+                 DYNAMIC BOOKINGS
+            ========================= -->
+
+            {% if bookings %}
+
+                {% for booking in bookings %}
+
+                    <div class="history-card">
+
+
+                        <!-- HEADER -->
+
+                        <div class="booking-header">
+
+                            <h3>
+                                Booking #{{ booking.id }}
+                            </h3>
+
+
+                            <span class="status {{ booking.status }}">
+                                {{ booking.get_status_display }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- INFORMATION -->
+
+                        <div class="booking-info">
+
+
+                            <div class="info-item">
+
+                                <span>
+                                    Parking Location
+                                </span>
+
+                                <strong>
+                                    📍 {{ booking.location.name }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span>
+                                    Parking Slot
+                                </span>
+
+                                <strong>
+                                    🅿️ {{ booking.slot.slot_number }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span>
+                                    Vehicle Number
+                                </span>
+
+                                <strong>
+                                    🚗 {{ booking.vehicle_number }}
+                                </strong>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span>
+                                    Booking Date
+                                </span>
+
+                                <strong>
+                                    📅 {{ booking.booking_date|date:"d F Y" }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- QR BUTTON -->
+
+                        <div class="booking-actions">
+
+                            <a
+                                href="{% url 'qr_code' booking.id %}"
+                                class="action-button"
+                            >
+                                📱 View QR Code →
+                            </a>
+
+                        </div>
+
+
+                    </div>
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+                <!-- EMPTY STATE -->
+
+                <div class="empty-card">
+
+                    <div class="empty-icon">
+                        🅿️
+                    </div>
+
+
+                    <h3>
+                        No Bookings Yet
+                    </h3>
+
+
+                    <p>
+                        You haven't made any parking reservations yet.
+                    </p>
+
+
+                    <a
+                        href="{% url 'parking_list' %}"
+                        class="find-button"
+                    >
+                        🅿️ Find Parking
+                    </a>
+
+                </div>
+
+
+            {% endif %}
+
+        </main>
+
+
+        <!-- FOOTER -->
+
+        <footer class="footer">
+
+            © 2026 ParkGrid · Customer Parking Portal
+
+        </footer>
+
+
     </div>
 
 </body>
+
 </html>

@@ -353,10 +353,7 @@
                 Find Parking
             </a>
 
-            <a href="/my-bookings/">
-                <span class="menu-icon">▣</span>
-                My Bookings
-            </a>
+            
 
             <a href="/booking-history/">
                 <span class="menu-icon">◷</span>
@@ -425,57 +422,55 @@
                 </p>
 
 
-                <div class="qr-box">
+               <div class="qr-box">
 
-                    <div>
-                        <div class="qr-placeholder">
-                            QR CODE
-                        </div>
+    <img
+        src="data:image/png;base64,{{ qr_image }}"
+        alt="Parking QR Code"
+        style="width: 190px; height: 190px; display: block;"
+    >
 
-                        <span class="preview-label">
-                            Preview
-                        </span>
-                    </div>
-
-                </div>
+</div>
 
 
                 <div class="details">
 
-                    <div class="detail-row">
-                        <span>Booking ID</span>
-                        <span>#1001</span>
-                    </div>
+    <div class="detail-row">
+        <span>Booking ID</span>
+        <span>#{{ booking.id }}</span>
+    </div>
 
-                    <div class="detail-row">
-                        <span>Parking Facility</span>
-                        <span>City Mall Parking</span>
-                    </div>
+    <div class="detail-row">
+        <span>Parking Facility</span>
+        <span>{{ booking.location.name }}</span>
+    </div>
 
-                    <div class="detail-row">
-                        <span>Parking Slot</span>
-                        <span>A1</span>
-                    </div>
+    <div class="detail-row">
+        <span>Parking Slot</span>
+        <span>{{ booking.slot.slot_number }}</span>
+    </div>
 
-                    <div class="detail-row">
-                        <span>Status</span>
-                        <span class="status">Reserved</span>
-                    </div>
+    <div class="detail-row">
+        <span>Status</span>
+        <span class="status">
+            {{ booking.get_status_display }}
+        </span>
+    </div>
 
-                </div>
+</div>
 
 
                 <div class="buttons">
 
-                    <a href="/booking-details/" class="btn primary-btn">
-                        Booking Details →
-                    </a>
+    <a href="{% url 'booking_details' %}" class="btn primary-btn">
+    Booking Details →
+</a>
 
-                    <a href="/my-bookings/" class="btn secondary-btn">
-                        My Bookings
-                    </a>
+    <a href="{% url 'booking_history' %}" class="btn secondary-btn">
+        Booking History
+    </a>
 
-                </div>
+</div>
 
             </div>
 

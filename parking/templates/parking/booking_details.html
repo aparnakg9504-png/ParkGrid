@@ -359,10 +359,7 @@
                 Find Parking
             </a>
 
-            <a href="/my-bookings/">
-                <span class="menu-icon">▣</span>
-                My Bookings
-            </a>
+        
 
             <a href="/booking-history/">
                 <span class="menu-icon">◷</span>
@@ -435,71 +432,75 @@
                     <h3>Reservation Information</h3>
 
                     <span class="booking-id">
-                        Booking #1001
-                    </span>
+    Booking #{{ booking.id }}
+</span>
 
                 </div>
 
 
                 <div class="details">
 
-                    <div class="detail-row">
-                        <span>Parking Facility</span>
-                        <span>City Mall Parking</span>
-                    </div>
+    <div class="detail-row">
+        <span>Parking Facility</span>
+        <span>{{ booking.location.name }}</span>
+    </div>
 
-                    <div class="detail-row">
-                        <span>Location</span>
-                        <span>Kochi</span>
-                    </div>
+    <div class="detail-row">
+        <span>Location</span>
+        <span>{{ booking.location.city }}</span>
+    </div>
 
-                    <div class="detail-row">
-                        <span>Parking Slot</span>
-                        <span>A1</span>
-                    </div>
+    <div class="detail-row">
+        <span>Parking Slot</span>
+        <span>{{ booking.slot.slot_number }}</span>
+    </div>
 
-                    <div class="detail-row">
-                        <span>Vehicle Type</span>
-                        <span>Four Wheeler</span>
-                    </div>
+    <div class="detail-row">
+        <span>Vehicle Type</span>
+        <span>{{ booking.get_vehicle_type_display }}</span>
+    </div>
 
-                    <div class="detail-row">
-                        <span>Vehicle Number</span>
-                        <span>KL-00-XX-0000</span>
-                    </div>
+    <div class="detail-row">
+        <span>Vehicle Number</span>
+        <span>{{ booking.vehicle_number }}</span>
+    </div>
 
-                    <div class="detail-row">
-                        <span>Booking Date</span>
-                        <span>20 September 2026</span>
-                    </div>
+    <div class="detail-row">
+        <span>Booking Date</span>
+        <span>{{ booking.booking_date|date:"d F Y" }}</span>
+    </div>
 
-                    <div class="detail-row">
-                        <span>Expected Arrival</span>
-                        <span>10:00 AM</span>
-                    </div>
+    <div class="detail-row">
+        <span>Expected Arrival</span>
+        <span>{{ booking.expected_arrival|date:"d F Y, h:i A" }}</span>
+    </div>
 
-                    <div class="detail-row">
-                        <span>Reservation Expiry</span>
-                        <span>11:00 AM</span>
-                    </div>
+    <div class="detail-row">
+        <span>Reservation Expiry</span>
+        <span>{{ booking.reservation_expiry|date:"d F Y, h:i A" }}</span>
+    </div>
 
-                    <div class="detail-row">
-                        <span>Status</span>
-                        <span class="status">Reserved</span>
-                    </div>
+    <div class="detail-row">
+        <span>Status</span>
+        <span class="status">
+            {{ booking.get_status_display }}
+        </span>
+    </div>
 
-                </div>
+</div>
 
 
                 <div class="actions">
 
-                    <a href="/qr-code/" class="btn primary-btn">
-                        View QR Code →
-                    </a>
+                <div class="booking-actions">
+    <a href="{% url 'qr_code' booking.id %}" class="btn primary-btn">
+        View QR Code →
+    </a>
+</div>
 
-                    <a href="/my-bookings/" class="btn secondary-btn">
-                        My Bookings
-                    </a>
+                    <a href="{% url 'booking_history' %}" class="btn secondary-btn">
+    Booking History
+</a>
 
                 </div>
 
@@ -507,8 +508,10 @@
 
 
             <div class="back">
-                <a href="/my-bookings/">← Back to My Bookings</a>
-            </div>
+    <a href="{% url 'booking_history' %}">
+        ← Back to Booking History
+    </a>
+</div>
 
         </main>
 

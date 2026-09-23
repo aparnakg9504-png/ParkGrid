@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Slots - ParkGrid</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #1e5eff;
+            margin: 0;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: #1e5eff;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #1e5eff;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 15px;
+            margin-bottom: 18px;
+        }
+
+        .checkbox-group {
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group label {
+            font-weight: normal;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 25px;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            margin: 0;
+        }
+
+        .add-btn {
+            background: #1e5eff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .message {
+            background: #e7f8ed;
+            color: #16833a;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .slot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 18px;
+        }
+
+        .slot {
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            background: #fafafa;
+        }
+
+        .slot-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e5eff;
+            margin-bottom: 10px;
+        }
+
+        .slot-info {
+            font-size: 14px;
+            color: #555;
+            margin: 6px 0;
+        }
+
+        .available {
+            color: #16833a;
+            font-weight: bold;
+        }
+
+        .occupied {
+            color: #d93025;
+            font-weight: bold;
+        }
+
+        .maintenance {
+            color: #e67e00;
+            font-weight: bold;
+        }
+
+        .slot-actions {
+            margin-top: 15px;
+        }
+
+        .edit-btn {
+            display: inline-block;
+            background: #1e5eff;
+            color: white;
+            padding: 7px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 7px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+            padding: 30px;
+        }
+
+        @media (max-width: 700px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Manage Parking Slots</h1>
+
+        <a href="{% url 'manager_dashboard' %}" class="back-btn">
+            ← Dashboard
+        </a>
+    </div>
+
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+    <!-- ADD SLOT -->
+
+    <div class="card">
+
+        <h2>➕ Add New Slot</h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-row">
+
+                <div>
+                    <label>Slot Number</label>
+
+                    <input
+                        type="text"
+                        name="slot_number"
+                        placeholder="Example: A01"
+                        required
+                    >
+                </div>
+
+
+                <div>
+                    <label>Vehicle Type</label>
+
+                    <select name="vehicle_type" required>
+
+                        <option value="">
+                            Select Vehicle Type
+                        </option>
+
+                        <option value="two_wheeler">
+                            Two Wheeler
+                        </option>
+
+                        <option value="four_wheeler">
+                            Four Wheeler
+                        </option>
+
+                    </select>
+                </div>
+
+            </div>
+
+
+            <div class="checkbox-group">
+
+                <label>
+                    <input type="checkbox" name="is_ev">
+                    EV Slot
+                </label>
+
+                <label>
+                    <input type="checkbox" name="charging_available">
+                    Charging Available
+                </label>
+
+            </div>
+
+
+            <button type="submit" class="add-btn">
+                Add Slot
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- EXISTING SLOTS -->
+
+    <div class="card">
+
+        <h2>🅿️ Existing Slots</h2>
+
+        {% if slots %}
+
+            <div class="slot-grid">
+
+                {% for slot in slots %}
+
+                    <div class="slot">
+
+                        <div class="slot-number">
+                            {{ slot.slot_number }}
+                        </div>
+
+
+                        <div class="slot-info">
+
+                            {% if slot.vehicle_type == 'two_wheeler' %}
+                                🛵 Two Wheeler
+                            {% else %}
+                                🚗 Four Wheeler
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="slot-info">
+
+                            {% if slot.is_ev %}
+                                ⚡ EV Slot
+                            {% else %}
+                                Normal Slot
+                            {% endif %}
+
+                        </div>
+
+
+                        {% if slot.charging_available %}
+
+                            <div class="slot-info">
+                                🔌 Charging Available
+                            </div>
+
+                        {% endif %}
+
+
+                        <div class="slot-info
+                            {% if slot.status == 'available' %}
+                                available
+                            {% elif slot.status == 'occupied' %}
+                                occupied
+                            {% else %}
+                                maintenance
+                            {% endif %}
+                        ">
+
+                            ● {{ slot.get_status_display }}
+
+                        </div>
+
+
+                        <!-- EDIT & DELETE -->
+
+                        <div class="slot-actions">
+
+                            <a
+                                href="{% url 'edit_manager_slot' slot.id %}"
+                                class="edit-btn"
+                            >
+                                ✏️ Edit
+                            </a>
+
+
+                            <form
+                                method="POST"
+                                action="{% url 'delete_manager_slot' slot.id %}"
+                                style="display:inline;"
+                                onsubmit="return confirm('Are you sure you want to delete this slot?');"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="delete-btn"
+                                >
+                                    🗑️ Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="empty">
+                No parking slots added yet.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
