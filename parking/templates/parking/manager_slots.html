@@ -136,6 +136,11 @@
             margin: 6px 0;
         }
 
+        .extra-slot {
+            color: #e67e00;
+            font-weight: bold;
+        }
+
         .available {
             color: #16833a;
             font-weight: bold;
@@ -270,6 +275,11 @@
                     Charging Available
                 </label>
 
+                <label>
+                    <input type="checkbox" name="is_extra">
+                    Extra / Backup Slot
+                </label>
+
             </div>
 
 
@@ -299,6 +309,13 @@
                         <div class="slot-number">
                             {{ slot.slot_number }}
                         </div>
+
+
+                        {% if slot.is_extra %}
+                            <div class="slot-info extra-slot">
+                                ⭐ Extra / Backup Slot
+                            </div>
+                        {% endif %}
 
 
                         <div class="slot-info">

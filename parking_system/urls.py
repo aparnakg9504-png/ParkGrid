@@ -99,6 +99,11 @@ urlpatterns = [
         views.qr_code,
         name='qr_code'
     ),
+    path(
+    'scan-qr/<int:booking_id>/',
+    views.scan_qr,
+    name='scan_qr'
+),
 
     path(
         'booking-history/',

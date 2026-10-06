@@ -104,6 +104,9 @@ class ParkingSlot(models.Model):
 
     charging_available = models.BooleanField(default=False)
 
+    # NEW
+    is_extra = models.BooleanField(default=False)
+
     status = models.CharField(
         max_length=20,
         choices=SLOT_STATUS_CHOICES,
@@ -112,8 +115,6 @@ class ParkingSlot(models.Model):
 
     def __str__(self):
         return f"{self.location.name} - {self.slot_number}"
-
-
 # ---------------------------------------------------------
 # BOOKING
 # ---------------------------------------------------------

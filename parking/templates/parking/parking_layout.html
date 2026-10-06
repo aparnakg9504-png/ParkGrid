@@ -9,16 +9,17 @@
     <title>{{ location.name }} - ParkGrid</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: "Segoe UI", Arial, sans-serif;
         }
 
         body {
-            background: #f5f7fb;
-            color: #222;
+            background: #f4f7f9;
+            color: #17212b;
         }
 
         /* ================= SIDEBAR ================= */
@@ -27,78 +28,95 @@
             position: fixed;
             left: 0;
             top: 0;
-            width: 230px;
+            width: 245px;
             height: 100vh;
-            background: #ffffff;
-            border-right: 1px solid #e5e7eb;
-            padding: 25px 15px;
+            background: #102a43;
+            color: white;
+            padding: 28px 18px;
         }
 
         .logo {
-            font-size: 25px;
-            font-weight: bold;
-            color: #2474ff;
-            margin-bottom: 35px;
-            padding-left: 12px;
+            padding: 0 14px 35px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+            font-size: 27px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo::first-letter {
+            color: white;
         }
 
         .nav-item {
-            display: block;
+            display: flex;
+            align-items: center;
             text-decoration: none;
-            color: #555;
-            padding: 13px 15px;
+            color: #d9e2ec;
+            padding: 13px 14px;
             border-radius: 8px;
-            margin-bottom: 7px;
-            font-size: 15px;
+            margin-bottom: 6px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .nav-item:first-of-type {
+            margin-top: 30px;
         }
 
         .nav-item:hover {
-            background: #eef4ff;
-            color: #2474ff;
+            background: #1c405f;
+            color: white;
         }
 
         .nav-item.active {
-            background: #2474ff;
+            background: #167d8d;
             color: white;
+        }
+
+        .nav-item:last-child {
+            color: #ffb4b4;
         }
 
         /* ================= MAIN ================= */
 
         .main {
-            margin-left: 230px;
-            padding: 30px;
+            margin-left: 245px;
+            min-height: 100vh;
+            padding: 35px 40px;
         }
 
         .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 12px;
+            padding: 22px 25px;
             margin-bottom: 25px;
         }
 
         .topbar h1 {
-            font-size: 27px;
+            font-size: 22px;
+            font-weight: 600;
         }
 
         .location-info {
-            color: #777;
+            color: #7b8794;
             margin-top: 6px;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         /* ================= SEARCH PANEL ================= */
 
         .search-panel {
             background: white;
-            border-radius: 14px;
+            border: 1px solid #e1e8ed;
+            border-radius: 12px;
             padding: 20px;
             margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .search-title {
-            font-size: 17px;
-            font-weight: bold;
+            font-size: 15px;
+            font-weight: 600;
             margin-bottom: 15px;
         }
 
@@ -116,34 +134,42 @@
         }
 
         .form-group label {
-            font-size: 13px;
-            color: #555;
+            font-size: 12px;
+            color: #7b8794;
             font-weight: 600;
         }
 
         .form-group input,
         .form-group select {
             padding: 11px 12px;
-            border: 1px solid #d7dce5;
-            border-radius: 8px;
+            border: 1px solid #d7e0e7;
+            border-radius: 7px;
             min-width: 160px;
-            font-size: 14px;
+            font-size: 13px;
             background: white;
+            color: #17212b;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #167d8d;
         }
 
         .check-btn {
             border: none;
-            background: #2474ff;
+            background: #102a43;
             color: white;
             padding: 11px 20px;
-            border-radius: 8px;
+            border-radius: 7px;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
         }
 
         .check-btn:hover {
-            background: #1e5ed6;
+            background: #167d8d;
         }
 
         /* ================= LEGEND ================= */
@@ -160,8 +186,8 @@
             display: flex;
             align-items: center;
             gap: 7px;
-            font-size: 13px;
-            color: #555;
+            font-size: 12px;
+            color: #7b8794;
         }
 
         .legend-box {
@@ -171,7 +197,7 @@
         }
 
         .available-box {
-            background: #2ecc71;
+            background: #2ec4b6;
         }
 
         .booked-box {
@@ -182,25 +208,44 @@
             background: #9ca3af;
         }
 
-        /* ================= PARKING AREA ================= */
+        .extra-box {
+            background: #f59e0b;
+        }
+
+        /* ================= PARKING CARD ================= */
 
         .parking-card {
             background: white;
-            border-radius: 16px;
+            border: 1px solid #e1e8ed;
+            border-radius: 12px;
             padding: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .parking-title {
             text-align: center;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 17px;
+            font-weight: 600;
             margin-bottom: 25px;
         }
 
         .parking-area {
             max-width: 850px;
             margin: auto;
+        }
+
+        /* ================= VEHICLE SECTIONS ================= */
+
+        .vehicle-section {
+            margin-bottom: 30px;
+        }
+
+        .vehicle-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #17212b;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e1e8ed;
         }
 
         /* ================= SLOT ROW ================= */
@@ -214,45 +259,94 @@
 
         .space {
             min-height: 85px;
-            border-radius: 10px;
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-decoration: none;
             color: white;
-            font-weight: bold;
+            font-weight: 600;
             transition: 0.2s;
             position: relative;
         }
 
+        /* AVAILABLE */
+
         .space.available {
-            background: #2ecc71;
+            background: #2ec4b6;
             cursor: pointer;
         }
 
         .space.available:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 12px rgba(46,204,113,0.3);
+            box-shadow: 0 6px 15px rgba(46,196,182,0.25);
+            background: #25b3a6;
         }
+
+        /* BOOKED */
 
         .space.booked {
             background: #e74c3c;
             cursor: not-allowed;
         }
 
+        /* OCCUPIED */
+
         .space.occupied {
             background: #e74c3c;
             cursor: not-allowed;
         }
+
+        /* MAINTENANCE */
 
         .space.maintenance {
             background: #9ca3af;
             cursor: not-allowed;
         }
 
+        /* EXTRA LOCKED */
+
+        .space.extra-locked {
+            background: #f59e0b;
+            cursor: not-allowed;
+            opacity: 0.85;
+        }
+
+        .space.extra-locked:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* SELECTION LOCKED */
+
+        .space.selection-locked {
+            background: #b8c2cc;
+            cursor: not-allowed;
+            opacity: 0.75;
+        }
+
+        .space.selection-locked:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* EXTRA LABEL */
+
+        .extra-label {
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            background: #fff3cd;
+            color: #856404;
+            padding: 3px 6px;
+            border-radius: 5px;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
         .slot-number {
-            font-size: 17px;
+            font-size: 16px;
         }
 
         .slot-status {
@@ -261,28 +355,32 @@
             opacity: 0.95;
         }
 
+        /* ================= EV LABEL ================= */
+
         .ev-label {
             position: absolute;
             top: 7px;
             right: 7px;
-            background: #ffffff;
-            color: #2474ff;
+            background: #d8f3ef;
+            color: #087f8c;
             padding: 3px 6px;
             border-radius: 5px;
             font-size: 9px;
+            font-weight: 700;
         }
 
         /* ================= DRIVEWAY ================= */
 
         .driveway {
             background: #eef0f3;
+            border: 1px solid #e1e8ed;
             border-radius: 8px;
             padding: 18px;
             text-align: center;
-            margin: 20px 0;
-            color: #777;
-            font-size: 13px;
-            font-weight: bold;
+            margin: 20px 0 30px;
+            color: #7b8794;
+            font-size: 12px;
+            font-weight: 600;
             letter-spacing: 1px;
         }
 
@@ -290,12 +388,16 @@
 
         .tip {
             margin-top: 25px;
-            background: #eef4ff;
-            border-left: 4px solid #2474ff;
+            background: #edf7f6;
+            border-left: 4px solid #167d8d;
             padding: 13px 15px;
             border-radius: 7px;
-            color: #555;
-            font-size: 13px;
+            color: #52606d;
+            font-size: 12px;
+        }
+
+        .tip strong {
+            color: #087f8c;
         }
 
         /* ================= EMPTY ================= */
@@ -303,7 +405,12 @@
         .empty {
             text-align: center;
             padding: 50px 20px;
-            color: #777;
+            color: #7b8794;
+        }
+
+        .empty h3 {
+            color: #17212b;
+            margin-bottom: 8px;
         }
 
         /* ================= MOBILE ================= */
@@ -338,7 +445,9 @@
             .check-btn {
                 width: 100%;
             }
+
         }
+
     </style>
 </head>
 
@@ -386,17 +495,21 @@
     <div class="topbar">
 
         <div>
-            <h1>{{ location.name }}</h1>
+
+            <h1>
+                {{ location.name }}
+            </h1>
 
             <div class="location-info">
                 {{ location.address }}, {{ location.city }}
             </div>
+
         </div>
 
     </div>
 
 
-    <!-- ================= DATE/TIME/DURATION ================= -->
+    <!-- ================= DATE / TIME / DURATION ================= -->
 
     <div class="search-panel">
 
@@ -408,6 +521,7 @@
             method="get"
             action="{% url 'parking_layout' location.id %}"
             class="search-form"
+            id="parkingSearchForm"
         >
 
             <div class="form-group">
@@ -460,38 +574,23 @@
                         Select duration
                     </option>
 
-                    <option
-                        value="1"
-                        {% if duration == 1 %}selected{% endif %}
-                    >
+                    <option value="1" {% if duration == 1 %}selected{% endif %}>
                         1 Hour
                     </option>
 
-                    <option
-                        value="2"
-                        {% if duration == 2 %}selected{% endif %}
-                    >
+                    <option value="2" {% if duration == 2 %}selected{% endif %}>
                         2 Hours
                     </option>
 
-                    <option
-                        value="3"
-                        {% if duration == 3 %}selected{% endif %}
-                    >
+                    <option value="3" {% if duration == 3 %}selected{% endif %}>
                         3 Hours
                     </option>
 
-                    <option
-                        value="4"
-                        {% if duration == 4 %}selected{% endif %}
-                    >
+                    <option value="4" {% if duration == 4 %}selected{% endif %}>
                         4 Hours
                     </option>
 
-                    <option
-                        value="5"
-                        {% if duration == 5 %}selected{% endif %}
-                    >
+                    <option value="5" {% if duration == 5 %}selected{% endif %}>
                         5 Hours
                     </option>
 
@@ -542,6 +641,15 @@
 
         </div>
 
+
+        <div class="legend-item">
+
+            <div class="legend-box extra-box"></div>
+
+            Extra / Backup
+
+        </div>
+
     </div>
 
 
@@ -558,116 +666,509 @@
 
             {% if slots %}
 
-                {% for slot in slots %}
 
-                    {% if forloop.first or forloop.counter0|divisibleby:4 %}
+                <!-- ================= 2 WHEELER PARKING ================= -->
 
-                        <div class="slot-row">
+                <div class="vehicle-section">
 
-                    {% endif %}
+                    <div class="vehicle-section-title">
+                        🛵 2-Wheeler Parking
+                    </div>
+
+                    <div class="slot-row">
+
+                        {% for slot in slots %}
+
+                            {% if slot.vehicle_type == 'two_wheeler' %}
 
 
-                    <!-- ================= MAINTENANCE ================= -->
+                                <!-- MAINTENANCE -->
 
-                    {% if slot.status == 'maintenance' %}
+                                {% if slot.status == 'maintenance' %}
 
-                        <div class="space maintenance">
+                                    <div class="space maintenance">
 
-                            {% if slot.is_ev %}
-                                <span class="ev-label">EV</span>
+                                        {% if slot.is_ev %}
+                                            <span class="ev-label">
+                                                EV
+                                            </span>
+                                        {% endif %}
+
+                                        {% if slot.is_extra %}
+                                            <span class="extra-label">
+                                                EXTRA
+                                            </span>
+                                        {% endif %}
+
+                                        <span class="slot-number">
+                                            {{ slot.slot_number }}
+                                        </span>
+
+                                        <span class="slot-status">
+                                            Maintenance
+                                        </span>
+
+                                    </div>
+
+
+                                <!-- BOOKED -->
+
+                                {% elif slot.id in booked_slot_ids %}
+
+                                    <div class="space booked">
+
+                                        {% if slot.is_ev %}
+                                            <span class="ev-label">
+                                                EV
+                                            </span>
+                                        {% endif %}
+
+                                        {% if slot.is_extra %}
+                                            <span class="extra-label">
+                                                EXTRA
+                                            </span>
+                                        {% endif %}
+
+                                        <span class="slot-number">
+                                            {{ slot.slot_number }}
+                                        </span>
+
+                                        <span class="slot-status">
+                                            Booked
+                                        </span>
+
+                                    </div>
+
+
+                                <!-- OCCUPIED -->
+
+                                {% elif slot.status == 'occupied' %}
+
+                                    <div class="space occupied">
+
+                                        {% if slot.is_ev %}
+                                            <span class="ev-label">
+                                                EV
+                                            </span>
+                                        {% endif %}
+
+                                        {% if slot.is_extra %}
+                                            <span class="extra-label">
+                                                EXTRA
+                                            </span>
+                                        {% endif %}
+
+                                        <span class="slot-number">
+                                            {{ slot.slot_number }}
+                                        </span>
+
+                                        <span class="slot-status">
+                                            Occupied
+                                        </span>
+
+                                    </div>
+
+
+                                <!-- EXTRA SLOT LOCKED -->
+
+                                {% elif slot.is_extra and not extra_two_wheeler_available %}
+
+                                    <div class="space extra-locked">
+
+                                        {% if slot.is_ev %}
+                                            <span class="ev-label">
+                                                EV
+                                            </span>
+                                        {% endif %}
+
+                                        <span class="extra-label">
+                                            EXTRA
+                                        </span>
+
+                                        <span class="slot-number">
+                                            {{ slot.slot_number }}
+                                        </span>
+
+                                        <span class="slot-status">
+                                            🔒 Backup Slot
+                                        </span>
+
+                                    </div>
+
+
+                                <!-- EXTRA SLOT AVAILABLE -->
+
+                                {% elif slot.is_extra and selected_date and selected_time and duration %}
+
+                                    <a
+                                        href="{% url 'parking_slots' %}?slot_id={{ slot.id }}&date={{ selected_date }}&time={{ selected_time }}&duration={{ duration }}"
+                                        class="space available"
+                                    >
+
+                                        {% if slot.is_ev %}
+                                            <span class="ev-label">
+                                                EV
+                                            </span>
+                                        {% endif %}
+
+                                        <span class="extra-label">
+                                            EXTRA
+                                        </span>
+
+                                        <span class="slot-number">
+                                            {{ slot.slot_number }}
+                                        </span>
+
+                                        <span class="slot-status">
+                                            ⭐ Extra Available
+                                        </span>
+
+                                    </a>
+
+
+                                <!-- EXTRA SLOT WITHOUT TIME SELECTION -->
+
+                                {% elif slot.is_extra %}
+
+                                    <div class="space selection-locked">
+
+                                        {% if slot.is_ev %}
+                                            <span class="ev-label">
+                                                EV
+                                            </span>
+                                        {% endif %}
+
+                                        <span class="extra-label">
+                                            EXTRA
+                                        </span>
+
+                                        <span class="slot-number">
+                                            {{ slot.slot_number }}
+                                        </span>
+
+                                        <span class="slot-status">
+                                            🔒 Select Time First
+                                        </span>
+
+                                    </div>
+
+
+                                <!-- REGULAR SLOT AVAILABLE -->
+
+                                {% else %}
+
+                                    {% if selected_date and selected_time and duration %}
+
+                                        <a
+                                            href="{% url 'parking_slots' %}?slot_id={{ slot.id }}&date={{ selected_date }}&time={{ selected_time }}&duration={{ duration }}"
+                                            class="space available"
+                                        >
+
+                                            {% if slot.is_ev %}
+                                                <span class="ev-label">
+                                                    EV
+                                                </span>
+                                            {% endif %}
+
+                                            <span class="slot-number">
+                                                {{ slot.slot_number }}
+                                            </span>
+
+                                            <span class="slot-status">
+                                                Available
+                                            </span>
+
+                                        </a>
+
+                                    {% else %}
+
+                                        <div class="space selection-locked">
+
+                                            {% if slot.is_ev %}
+                                                <span class="ev-label">
+                                                    EV
+                                                </span>
+                                            {% endif %}
+
+                                            <span class="slot-number">
+                                                {{ slot.slot_number }}
+                                            </span>
+
+                                            <span class="slot-status">
+                                                🔒 Select Time First
+                                            </span>
+
+                                        </div>
+
+                                    {% endif %}
+
+                                {% endif %}
+
                             {% endif %}
 
-                            <span class="slot-number">
-                                {{ slot.slot_number }}
-                            </span>
+                        {% endfor %}
 
-                            <span class="slot-status">
-                                Maintenance
-                            </span>
+                    </div>
 
-                        </div>
+                </div>
 
 
-                    <!-- ================= BOOKED BY TIME ================= -->
+                <!-- ================= DRIVEWAY ================= -->
 
-                    {% elif slot.id in booked_slot_ids %}
+                <div class="driveway">
+                    🚗 DRIVEWAY / ENTRY
+                </div>
 
-                        <div class="space booked">
 
-                            {% if slot.is_ev %}
-                                <span class="ev-label">EV</span>
+                <!-- ================= 4 WHEELER PARKING ================= -->
+
+                <div class="vehicle-section">
+
+                    <div class="vehicle-section-title">
+                        🚗 4-Wheeler Parking
+                    </div>
+
+                    <div class="slot-row">
+
+                        {% for slot in slots %}
+
+                            {% if slot.vehicle_type == 'four_wheeler' %}
+
+
+                                <!-- MAINTENANCE -->
+
+                                {% if slot.status == 'maintenance' %}
+
+                                    <div class="space maintenance">
+
+                                        {% if slot.is_ev %}
+                                            <span class="ev-label">
+                                                EV
+                                            </span>
+                                        {% endif %}
+
+                                        {% if slot.is_extra %}
+                                            <span class="extra-label">
+                                                EXTRA
+                                            </span>
+                                        {% endif %}
+
+                                        <span class="slot-number">
+                                            {{ slot.slot_number }}
+                                        </span>
+
+                                        <span class="slot-status">
+                                            Maintenance
+                                        </span>
+
+                                    </div>
+
+
+                                <!-- BOOKED -->
+
+                                {% elif slot.id in booked_slot_ids %}
+
+                                    <div class="space booked">
+
+                                        {% if slot.is_ev %}
+                                            <span class="ev-label">
+                                                EV
+                                            </span>
+                                        {% endif %}
+
+                                        {% if slot.is_extra %}
+                                            <span class="extra-label">
+                                                EXTRA
+                                            </span>
+                                        {% endif %}
+
+                                        <span class="slot-number">
+                                            {{ slot.slot_number }}
+                                        </span>
+
+                                        <span class="slot-status">
+                                            Booked
+                                        </span>
+
+                                    </div>
+
+
+                                <!-- OCCUPIED -->
+
+                                {% elif slot.status == 'occupied' %}
+
+                                    <div class="space occupied">
+
+                                        {% if slot.is_ev %}
+                                            <span class="ev-label">
+                                                EV
+                                            </span>
+                                        {% endif %}
+
+                                        {% if slot.is_extra %}
+                                            <span class="extra-label">
+                                                EXTRA
+                                            </span>
+                                        {% endif %}
+
+                                        <span class="slot-number">
+                                            {{ slot.slot_number }}
+                                        </span>
+
+                                        <span class="slot-status">
+                                            Occupied
+                                        </span>
+
+                                    </div>
+
+
+                                <!-- EXTRA SLOT LOCKED -->
+
+                                {% elif slot.is_extra and not extra_four_wheeler_available %}
+
+                                    <div class="space extra-locked">
+
+                                        {% if slot.is_ev %}
+                                            <span class="ev-label">
+                                                EV
+                                            </span>
+                                        {% endif %}
+
+                                        <span class="extra-label">
+                                            EXTRA
+                                        </span>
+
+                                        <span class="slot-number">
+                                            {{ slot.slot_number }}
+                                        </span>
+
+                                        <span class="slot-status">
+                                            🔒 Backup Slot
+                                        </span>
+
+                                    </div>
+
+
+                                <!-- EXTRA SLOT AVAILABLE -->
+
+                                {% elif slot.is_extra and selected_date and selected_time and duration %}
+
+                                    <a
+                                        href="{% url 'parking_slots' %}?slot_id={{ slot.id }}&date={{ selected_date }}&time={{ selected_time }}&duration={{ duration }}"
+                                        class="space available"
+                                    >
+
+                                        {% if slot.is_ev %}
+                                            <span class="ev-label">
+                                                EV
+                                            </span>
+                                        {% endif %}
+
+                                        <span class="extra-label">
+                                            EXTRA
+                                        </span>
+
+                                        <span class="slot-number">
+                                            {{ slot.slot_number }}
+                                        </span>
+
+                                        <span class="slot-status">
+                                            ⭐ Extra Available
+                                        </span>
+
+                                    </a>
+
+
+                                <!-- EXTRA SLOT WITHOUT TIME SELECTION -->
+
+                                {% elif slot.is_extra %}
+
+                                    <div class="space selection-locked">
+
+                                        {% if slot.is_ev %}
+                                            <span class="ev-label">
+                                                EV
+                                            </span>
+                                        {% endif %}
+
+                                        <span class="extra-label">
+                                            EXTRA
+                                        </span>
+
+                                        <span class="slot-number">
+                                            {{ slot.slot_number }}
+                                        </span>
+
+                                        <span class="slot-status">
+                                            🔒 Select Time First
+                                        </span>
+
+                                    </div>
+
+
+                                <!-- REGULAR SLOT AVAILABLE -->
+
+                                {% else %}
+
+                                    {% if selected_date and selected_time and duration %}
+
+                                        <a
+                                            href="{% url 'parking_slots' %}?slot_id={{ slot.id }}&date={{ selected_date }}&time={{ selected_time }}&duration={{ duration }}"
+                                            class="space available"
+                                        >
+
+                                            {% if slot.is_ev %}
+                                                <span class="ev-label">
+                                                    EV
+                                                </span>
+                                            {% endif %}
+
+                                            <span class="slot-number">
+                                                {{ slot.slot_number }}
+                                            </span>
+
+                                            <span class="slot-status">
+                                                Available
+                                            </span>
+
+                                        </a>
+
+                                    {% else %}
+
+                                        <div class="space selection-locked">
+
+                                            {% if slot.is_ev %}
+                                                <span class="ev-label">
+                                                    EV
+                                                </span>
+                                            {% endif %}
+
+                                            <span class="slot-number">
+                                                {{ slot.slot_number }}
+                                            </span>
+
+                                            <span class="slot-status">
+                                                🔒 Select Time First
+                                            </span>
+
+                                        </div>
+
+                                    {% endif %}
+
+                                {% endif %}
+
                             {% endif %}
 
-                            <span class="slot-number">
-                                {{ slot.slot_number }}
-                            </span>
+                        {% endfor %}
 
-                            <span class="slot-status">
-                                Booked
-                            </span>
+                    </div>
 
-                        </div>
-
-
-                    <!-- ================= CURRENTLY OCCUPIED ================= -->
-
-                    {% elif slot.status == 'occupied' %}
-
-                        <div class="space occupied">
-
-                            {% if slot.is_ev %}
-                                <span class="ev-label">EV</span>
-                            {% endif %}
-
-                            <span class="slot-number">
-                                {{ slot.slot_number }}
-                            </span>
-
-                            <span class="slot-status">
-                                Occupied
-                            </span>
-
-                        </div>
-
-
-                    <!-- ================= AVAILABLE ================= -->
-
-                    {% else %}
-
-                        <a
-                            href="{% url 'parking_slots' %}?slot_id={{ slot.id }}&date={{ selected_date }}&time={{ selected_time }}&duration={{ duration }}"
-                            class="space available"
-                        >
-
-                            {% if slot.is_ev %}
-                                <span class="ev-label">
-                                    EV
-                                </span>
-                            {% endif %}
-
-                            <span class="slot-number">
-                                {{ slot.slot_number }}
-                            </span>
-
-                            <span class="slot-status">
-                                Available
-                            </span>
-
-                        </a>
-
-                    {% endif %}
-
-
-                    {% if forloop.counter|divisibleby:4 or forloop.last %}
-
-                        </div>
-
-                    {% endif %}
-
-                {% endfor %}
+                </div>
 
 
             {% else %}
+
+                <!-- ================= EMPTY ================= -->
 
                 <div class="empty">
 
@@ -683,17 +1184,6 @@
 
             {% endif %}
 
-
-            <!-- DRIVEWAY -->
-
-            {% if slots %}
-
-                <div class="driveway">
-                    🚗 DRIVEWAY / ENTRY
-                </div>
-
-            {% endif %}
-
         </div>
 
 
@@ -702,9 +1192,12 @@
         <div class="tip">
 
             💡 <strong>Tip:</strong>
+
             Select your date, arrival time and parking duration
             before choosing a slot. Red slots are already booked
-            for the selected time.
+            for the selected time. Orange slots are backup slots
+            and become available only when all regular slots
+            of that vehicle type are unavailable.
 
         </div>
 
@@ -713,13 +1206,17 @@
 </div>
 
 
+<!-- ================= TIME VALIDATION ================= -->
+
 <script>
 
-    // Prevent selecting a date before today
-
     const dateInput = document.getElementById("date");
+    const timeInput = document.getElementById("time");
+    const durationInput = document.getElementById("duration");
+    const searchForm = document.getElementById("parkingSearchForm");
 
-    if (dateInput) {
+
+    function getTodayDate() {
 
         const today = new Date();
 
@@ -733,11 +1230,186 @@
             today.getDate()
         ).padStart(2, "0");
 
-        dateInput.min =
-            `${year}-${month}-${day}`;
+        return `${year}-${month}-${day}`;
+    }
+
+
+    function updateTimeRestriction() {
+
+        if (!dateInput || !timeInput) {
+            return;
+        }
+
+
+        const today = getTodayDate();
+
+
+        // Prevent selecting dates before today
+
+        dateInput.min = today;
+
+
+        // If selected date is today
+
+        if (dateInput.value === today) {
+
+            const now = new Date();
+
+            const hours = String(
+                now.getHours()
+            ).padStart(2, "0");
+
+            const minutes = String(
+                now.getMinutes()
+            ).padStart(2, "0");
+
+            const currentTime =
+                `${hours}:${minutes}`;
+
+
+            // Only allow current/future time
+
+            timeInput.min = currentTime;
+
+
+            // Clear an already selected past time
+
+            if (
+                timeInput.value &&
+                timeInput.value < currentTime
+            ) {
+
+                timeInput.value = "";
+
+            }
+
+        } else {
+
+            // Future date → allow any time
+
+            timeInput.removeAttribute("min");
+
+        }
+
+    }
+
+
+    // Apply restriction when page loads
+
+    updateTimeRestriction();
+
+
+    // Update when date changes
+
+    if (dateInput) {
+
+        dateInput.addEventListener(
+            "change",
+            updateTimeRestriction
+        );
+
+    }
+
+
+    // Keep current time updated every 30 seconds
+
+    setInterval(
+        updateTimeRestriction,
+        30000
+    );
+
+
+    // Final check before submitting the search form
+
+    if (searchForm) {
+
+        searchForm.addEventListener(
+            "submit",
+            function(event) {
+
+                const selectedDate = dateInput.value;
+                const selectedTime = timeInput.value;
+                const selectedDuration = durationInput.value;
+
+                const today = getTodayDate();
+
+
+                // Make sure all three fields are selected
+
+                if (
+                    !selectedDate ||
+                    !selectedTime ||
+                    !selectedDuration
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select date, arrival time and duration before checking availability."
+                    );
+
+                    return;
+
+                }
+
+
+                // Prevent past date
+
+                if (selectedDate < today) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select today or a future date."
+                    );
+
+                    dateInput.value = "";
+
+                    return;
+
+                }
+
+
+                // Prevent past time for today
+
+                if (
+                    selectedDate === today &&
+                    selectedTime
+                ) {
+
+                    const now = new Date();
+
+                    const currentTime =
+                        String(now.getHours()).padStart(2, "0")
+                        + ":" +
+                        String(now.getMinutes()).padStart(2, "0");
+
+
+                    if (selectedTime < currentTime) {
+
+                        event.preventDefault();
+
+                        alert(
+                            "Please select a current or future arrival time."
+                        );
+
+                        timeInput.value = "";
+
+                        updateTimeRestriction();
+
+                        return;
+
+                    }
+
+                }
+
+            }
+        );
+
     }
 
 </script>
+
 
 </body>
 </html>

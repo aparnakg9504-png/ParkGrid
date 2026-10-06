@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 import base64
 from io import BytesIO
 import uuid
+from decimal import Decimal
 
 import qrcode
 
@@ -10,6 +11,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db.models import Q
 from django.utils import timezone
+from django.urls import reverse
 
 from .forms import RegistrationForm, ComplaintForm
 from .models import (
@@ -17,9 +19,9 @@ from .models import (
     ParkingLocation,
     ParkingSlot,
     Booking,
+    Payment,
     Complaint
 )
-
 
 # ---------------------------------------------------------
 # HOME
@@ -215,26 +217,26 @@ def parking_list(request):
 
 def parking_layout(request, location_id):
 
-    location = ParkingLocation.objects.get(
-        id=location_id
-    )
+    location = ParkingLocation.objects.get(id=location_id)
 
     slots = ParkingSlot.objects.filter(
         location=location
-    ).order_by('slot_number')
+    ).order_by('is_extra', 'slot_number')
 
     selected_date = request.GET.get('date')
     selected_time = request.GET.get('time')
     duration_value = request.GET.get('duration')
 
     booked_slot_ids = set()
+
+    extra_two_wheeler_available = False
+    extra_four_wheeler_available = False
+
     duration = None
 
-    # Check which slots are already booked
     if selected_date and selected_time and duration_value:
 
         try:
-
             duration = int(duration_value)
 
             if duration > 0:
@@ -244,14 +246,11 @@ def parking_layout(request, location_id):
                     "%Y-%m-%d %H:%M"
                 )
 
-                start_time = timezone.make_aware(
-                    start_naive
-                )
+                start_time = timezone.make_aware(start_naive)
 
-                end_time = start_time + timedelta(
-                    hours=duration
-                )
+                end_time = start_time + timedelta(hours=duration)
 
+                # Find slots already booked for the selected period
                 conflicting_bookings = Booking.objects.filter(
                     location=location,
                     status__in=['reserved', 'active'],
@@ -266,6 +265,48 @@ def parking_layout(request, location_id):
                     )
                 )
 
+                # ==============================
+                # 2-WHEELER EXTRA SLOT CHECK
+                # ==============================
+
+                regular_two_wheeler = slots.filter(
+                    vehicle_type='two_wheeler',
+                    is_extra=False
+                )
+
+                if regular_two_wheeler.exists():
+
+                    all_two_wheeler_unavailable = all(
+                        slot.id in booked_slot_ids
+                        or slot.status in ['occupied', 'maintenance']
+                        for slot in regular_two_wheeler
+                    )
+
+                    extra_two_wheeler_available = (
+                        all_two_wheeler_unavailable
+                    )
+
+                # ==============================
+                # 4-WHEELER EXTRA SLOT CHECK
+                # ==============================
+
+                regular_four_wheeler = slots.filter(
+                    vehicle_type='four_wheeler',
+                    is_extra=False
+                )
+
+                if regular_four_wheeler.exists():
+
+                    all_four_wheeler_unavailable = all(
+                        slot.id in booked_slot_ids
+                        or slot.status in ['occupied', 'maintenance']
+                        for slot in regular_four_wheeler
+                    )
+
+                    extra_four_wheeler_available = (
+                        all_four_wheeler_unavailable
+                    )
+
         except (ValueError, TypeError):
 
             duration = None
@@ -276,13 +317,20 @@ def parking_layout(request, location_id):
         {
             'location': location,
             'slots': slots,
+
             'booked_slot_ids': booked_slot_ids,
+
             'selected_date': selected_date,
             'selected_time': selected_time,
             'duration': duration,
+
+            'extra_two_wheeler_available':
+                extra_two_wheeler_available,
+
+            'extra_four_wheeler_available':
+                extra_four_wheeler_available,
         }
     )
-
 
 # ---------------------------------------------------------
 # PARKING SLOT DETAILS
@@ -444,39 +492,37 @@ def manager_facility(request):
 # ---------------------------------------------------------
 
 def manager_slots(request):
-
     location = ParkingLocation.objects.filter(
         manager=request.user
     ).first()
 
     if not location:
-
         messages.error(
             request,
             'Please add your parking facility first.'
         )
-
         return redirect('manager_facility')
 
     slots = ParkingSlot.objects.filter(
         location=location
-    ).order_by('slot_number')
+    ).order_by('is_extra', 'slot_number')
 
     if request.method == 'POST':
 
         slot_number = request.POST.get('slot_number')
         vehicle_type = request.POST.get('vehicle_type')
+
         is_ev = request.POST.get('is_ev') == 'on'
-        charging_available = request.POST.get(
-            'charging_available'
-        ) == 'on'
+        charging_available = request.POST.get('charging_available') == 'on'
+        is_extra = request.POST.get('is_extra') == 'on'
 
         ParkingSlot.objects.create(
             location=location,
             slot_number=slot_number,
             vehicle_type=vehicle_type,
             is_ev=is_ev,
-            charging_available=charging_available
+            charging_available=charging_available,
+            is_extra=is_extra
         )
 
         messages.success(
@@ -491,11 +537,9 @@ def manager_slots(request):
         'parking/manager_slots.html',
         {
             'location': location,
-            'slots': slots,
+            'slots': slots
         }
     )
-
-
 # ---------------------------------------------------------
 # EDIT PARKING SLOT
 # ---------------------------------------------------------
@@ -1289,9 +1333,12 @@ def booking_details(request):
 def qr_code(request, booking_id):
 
     try:
-        booking = Booking.objects.get(
-            id=booking_id,
-            user=request.user
+        booking = Booking.objects.select_related(
+            'location',
+            'slot',
+            'user'
+        ).get(
+            id=booking_id
         )
 
     except Booking.DoesNotExist:
@@ -1303,13 +1350,30 @@ def qr_code(request, booking_id):
 
         return redirect('booking_history')
 
+    # -----------------------------------------------------
+    # URL THAT WILL OPEN AFTER SCANNING
+    # -----------------------------------------------------
+
+    scan_url = request.build_absolute_uri(
+        reverse(
+            'scan_qr',
+            kwargs={
+                'booking_id': booking.id
+            }
+        )
+    )
+
+    # -----------------------------------------------------
+    # GENERATE QR CODE
+    # -----------------------------------------------------
+
     qr = qrcode.QRCode(
         version=1,
         box_size=8,
         border=4
     )
 
-    qr.add_data(booking.qr_code)
+    qr.add_data(scan_url)
 
     qr.make(fit=True)
 
@@ -1334,10 +1398,108 @@ def qr_code(request, booking_id):
         'parking/qr_code.html',
         {
             'booking': booking,
-            'qr_image': qr_image_base64
+            'qr_image': qr_image_base64,
+            'scan_url': scan_url,
         }
     )
+
+
 # ---------------------------------------------------------
+# SCAN QR CODE
+# ---------------------------------------------------------
+
+def scan_qr(request, booking_id):
+
+    try:
+
+        booking = Booking.objects.select_related(
+            'location',
+            'slot',
+            'user'
+        ).get(
+            id=booking_id
+        )
+
+    except Booking.DoesNotExist:
+
+        return render(
+            request,
+            'parking/qr_scan_result.html',
+            {
+                'booking': None,
+                'error': 'Invalid or expired QR code.'
+            }
+        )
+
+    # -----------------------------------------------------
+    # CALCULATE DURATION
+    # -----------------------------------------------------
+
+    duration_seconds = (
+        booking.reservation_expiry
+        - booking.expected_arrival
+    ).total_seconds()
+
+    duration_hours = int(
+        duration_seconds / 3600
+    )
+
+    if duration_hours <= 0:
+        duration_hours = 1
+
+    # -----------------------------------------------------
+    # PARKING RATE
+    # -----------------------------------------------------
+
+    if booking.vehicle_type == 'two_wheeler':
+
+        hourly_rate = Decimal('10.00')
+
+    else:
+
+        hourly_rate = Decimal('30.00')
+
+    # -----------------------------------------------------
+    # CALCULATE AMOUNT
+    # -----------------------------------------------------
+
+    amount = (
+        hourly_rate * Decimal(duration_hours)
+    )
+
+    # -----------------------------------------------------
+    # CREATE / UPDATE PAYMENT
+    # -----------------------------------------------------
+
+    payment, created = Payment.objects.get_or_create(
+        booking=booking,
+        defaults={
+            'amount': amount,
+            'payment_method': 'cash',
+            'status': 'pending'
+        }
+    )
+
+    if not created:
+
+        payment.amount = amount
+
+        payment.save(
+            update_fields=['amount']
+        )
+
+    return render(
+        request,
+        'parking/qr_scan_result.html',
+        {
+            'booking': booking,
+            'duration_hours': duration_hours,
+            'hourly_rate': hourly_rate,
+            'amount': amount,
+            'payment': payment,
+        }
+    )
+    # ---------------------------------------------------------
 # BOOKING HISTORY
 # ---------------------------------------------------------
 
@@ -1425,3 +1587,4 @@ def complaint_status(request):
             'complaints': complaints
         }
     )
+
