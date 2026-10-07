@@ -105,15 +105,21 @@ class BookingAdmin(admin.ModelAdmin):
 class PaymentAdmin(admin.ModelAdmin):
     list_display = (
         'booking',
-        'amount',
-        'payment_method',
-        'status',
-        'payment_time',
+        'advance_amount',
+        'advance_payment_method',
+        'advance_status',
+        'advance_payment_time',
+        'balance_amount',
+        'balance_payment_method',
+        'balance_status',
+        'final_amount',
     )
 
     list_filter = (
-        'status',
-        'payment_method',
+        'advance_status',
+        'advance_payment_method',
+        'balance_status',
+        'balance_payment_method',
     )
 
 

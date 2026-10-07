@@ -93,12 +93,27 @@ urlpatterns = [
         views.booking_details,
         name='booking_details'
     ),
+    path(
+    'advance-payment/<int:booking_id>/',
+    views.advance_payment,
+    name='advance_payment'
+    ),
 
     path(
         'qr-code/<int:booking_id>/',
         views.qr_code,
         name='qr_code'
     ),
+path(
+    'manager/booking/<int:booking_id>/entry/',
+    views.manager_mark_entry,
+    name='manager_mark_entry'
+),
+path(
+    'manager/booking/<int:booking_id>/exit/',
+    views.manager_mark_exit,
+    name='manager_mark_exit'
+),
     path(
     'scan-qr/<int:booking_id>/',
     views.scan_qr,

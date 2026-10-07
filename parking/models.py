@@ -190,10 +190,6 @@ class Booking(models.Model):
         return f"Booking #{self.id} - {self.vehicle_number}"
 
 
-# ---------------------------------------------------------
-# PAYMENT
-# ---------------------------------------------------------
-
 class Payment(models.Model):
 
     PAYMENT_STATUS_CHOICES = (
@@ -205,6 +201,9 @@ class Payment(models.Model):
     PAYMENT_METHOD_CHOICES = (
         ('cash', 'Cash'),
         ('online', 'Online'),
+        ('gpay', 'GPay'),
+        ('phonepe', 'PhonePe'),
+        ('upi', 'UPI'),
     )
 
     booking = models.OneToOneField(
@@ -213,33 +212,63 @@ class Payment(models.Model):
         related_name='payment'
     )
 
-    amount = models.DecimalField(
+    # Advance payment made during booking
+    advance_amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         default=0
     )
 
-    payment_method = models.CharField(
+    advance_payment_method = models.CharField(
         max_length=20,
         choices=PAYMENT_METHOD_CHOICES,
-        default='cash'
+        default='online'
     )
 
-    status = models.CharField(
+    advance_status = models.CharField(
         max_length=20,
         choices=PAYMENT_STATUS_CHOICES,
         default='pending'
     )
 
-    payment_time = models.DateTimeField(
+    advance_payment_time = models.DateTimeField(
         null=True,
         blank=True
     )
 
+    # Balance payment calculated at exit
+    balance_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
+    balance_payment_method = models.CharField(
+        max_length=20,
+        choices=PAYMENT_METHOD_CHOICES,
+        default='cash'
+    )
+
+    balance_payment_time = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
+    balance_status = models.CharField(
+        max_length=20,
+        choices=PAYMENT_STATUS_CHOICES,
+        default='pending'
+    )
+
+    # Final parking charge based on actual duration
+    final_amount = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0
+    )
+
     def __str__(self):
         return f"Payment for Booking #{self.booking.id}"
-
-
 # ---------------------------------------------------------
 # COMPLAINT
 # ---------------------------------------------------------

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkGrid | Advance Payment</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7f9;
+            color: #17212b;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e1e8ed;
+            border-radius: 14px;
+            padding: 35px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: #102a43;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #7b8794;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .details {
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 18px;
+            border-bottom: 1px solid #e1e8ed;
+            font-size: 14px;
+        }
+
+        .row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: #7b8794;
+        }
+
+        .value {
+            font-weight: 600;
+        }
+
+        .amount-box {
+            background: #edf7f6;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .amount-label {
+            color: #087f8c;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .amount {
+            color: #102a43;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .payment-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .methods {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .method {
+            border: 1px solid #d9e2ec;
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .method input {
+            margin-right: 5px;
+        }
+
+        .method:hover {
+            border-color: #167d8d;
+        }
+
+        .pay-btn {
+            width: 100%;
+            border: none;
+            background: #102a43;
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .pay-btn:hover {
+            background: #167d8d;
+        }
+
+        .note {
+            margin-top: 18px;
+            color: #7b8794;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 25px auto;
+            }
+
+            .card {
+                padding: 25px 18px;
+            }
+
+            .methods {
+                grid-template-columns: 1fr;
+            }
+
+            .row {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>Advance Payment</h1>
+
+        <p class="subtitle">
+            Complete the advance payment to confirm your parking reservation.
+        </p>
+
+        <div class="details">
+
+            <div class="row">
+                <span class="label">Booking ID</span>
+                <span class="value">#{{ booking.id }}</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Parking Facility</span>
+                <span class="value">{{ booking.location }}</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Parking Slot</span>
+                <span class="value">{{ booking.slot }}</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Vehicle Number</span>
+                <span class="value">{{ booking.vehicle_number }}</span>
+            </div>
+
+            <div class="row">
+                <span class="label">Vehicle Type</span>
+                <span class="value">{{ booking.vehicle_type }}</span>
+            </div>
+
+        </div>
+
+        <div class="amount-box">
+
+            <div class="amount-label">
+                Advance Amount
+            </div>
+
+            <div class="amount">
+                ₹{{ advance_amount }}
+            </div>
+
+        </div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="payment-title">
+                Select Payment Method
+            </div>
+
+            <div class="methods">
+
+                <label class="method">
+                    <input
+                        type="radio"
+                        name="payment_method"
+                        value="gpay"
+                        required
+                    >
+                    GPay
+                </label>
+
+                <label class="method">
+                    <input
+                        type="radio"
+                        name="payment_method"
+                        value="phonepe"
+                    >
+                    PhonePe
+                </label>
+
+                <label class="method">
+                    <input
+                        type="radio"
+                        name="payment_method"
+                        value="upi"
+                    >
+                    UPI
+                </label>
+
+            </div>
+
+            <button type="submit" class="pay-btn">
+                Pay Advance & Continue
+            </button>
+
+        </form>
+
+        <p class="note">
+            This is an advance payment. The final parking amount will be
+            calculated based on the actual parking duration at exit.
+        </p>
+
+    </div>
+
+</div>
+
+</body>
+</html>

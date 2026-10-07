@@ -422,7 +422,7 @@
                 </p>
 
                 <div class="booking-number">
-                    Booking ID: #1001
+                    Booking ID: #{{ booking.id }}
                 </div>
 
 
@@ -430,17 +430,17 @@
 
                     <div class="detail-row">
                         <span>Parking Facility</span>
-                        <span>City Mall Parking</span>
+                        <span>{{ booking.location }}</span>
                     </div>
 
                     <div class="detail-row">
                         <span>Location</span>
-                        <span>Kochi</span>
+                        <span>{{ booking.location.city }}</span>
                     </div>
 
                     <div class="detail-row">
                         <span>Parking Slot</span>
-                        <span>A1</span>
+                        <span>{{ booking.slot }}</span>
                     </div>
 
                     <div class="detail-row">
@@ -450,17 +450,17 @@
 
                     <div class="detail-row">
                         <span>Vehicle Number</span>
-                        <span>KL-00-XX-0000</span>
+                        <span>{{ booking.vehicle_number }}</span>
                     </div>
 
                     <div class="detail-row">
                         <span>Booking Date</span>
-                        <span>20 September 2026</span>
+                        <span>{{ booking.booking_date|date:"d F Y" }}</span>
                     </div>
 
                     <div class="detail-row">
                         <span>Status</span>
-                        <span class="status">Reserved</span>
+                        <span class="status">{{ booking.get_status_display }}</span>
                     </div>
 
                 </div>
@@ -468,8 +468,8 @@
 
                 <div class="buttons">
 
-                    <a href="{% url 'booking_details' %}" class="btn primary-btn">
-    Booking Details →
+                   <a href="{% url 'advance_payment' booking.id %}" class="btn primary-btn">
+    Pay Advance & Continue
 </a>
 
                     <a href="/user/dashboard/" class="btn secondary-btn">
